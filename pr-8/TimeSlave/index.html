@@ -588,7 +588,7 @@
 <li><p>The <code class="docutils literal notranslate"><span class="pre">GptpEngine</span></code> shall manage a PdelayThread for periodic peer delay measurement</p></li>
 <li><p>The <code class="docutils literal notranslate"><span class="pre">GptpEngine</span></code> shall provide a <code class="docutils literal notranslate"><span class="pre">FinalizeSnapshot()</span></code> method that checks for sync timeout, applies status flags, and commits the pending snapshot to the current snapshot; this must be called before <code class="docutils literal notranslate"><span class="pre">ReadPTPSnapshot()</span></code></p></li>
 <li><p>The <code class="docutils literal notranslate"><span class="pre">GptpEngine</span></code> shall provide a <code class="docutils literal notranslate"><span class="pre">ReadPTPSnapshot(GptpIpcData&amp;)</span></code> method that copies the latest committed snapshot into the caller’s buffer and returns false only if the engine is not initialized</p></li>
-<li><p>The <code class="docutils literal notranslate"><span class="pre">GptpEngine</span></code> shall support configurable parameters via <code class="docutils literal notranslate"><span class="pre">GptpEngineOptions</span></code> (interface name, PDelay interval, PDelay warmup, sync timeout, time-jump threshold)</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">GptpEngine</span></code> shall support configurable parameters via <code class="docutils literal notranslate"><span class="pre">GptpEngineOptions</span></code> (interface name, PDelay interval, PDelay warmup, sync timeout, time-jump threshold, PHC configuration)</p></li>
 <li><p>The <code class="docutils literal notranslate"><span class="pre">GptpEngine</span></code> shall support exchangeability of the raw socket implementation for different platforms (Linux, QNX)</p></li>
 </ul>
 </section>
@@ -850,7 +850,7 @@
 <tbody>
 <tr class="row-even"><td><p>Raw Socket</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">AF_PACKET</span></code> + <code class="docutils literal notranslate"><span class="pre">SO_TIMESTAMPING</span></code>; HW RX timestamp via <code class="docutils literal notranslate"><span class="pre">recvmsg</span></code> <code class="docutils literal notranslate"><span class="pre">SCM_TIMESTAMPING</span></code></p></td>
-<td><p>BPF (<code class="docutils literal notranslate"><span class="pre">/dev/bpf</span></code>); HW RX timestamp via <code class="docutils literal notranslate"><span class="pre">bpf_xhdr.bh_tstamp</span></code> (<code class="docutils literal notranslate"><span class="pre">BIOCSTSTAMP</span> <span class="pre">BPF_T_PTP|BPF_T_BINTIME</span></code>); TX timestamp via <code class="docutils literal notranslate"><span class="pre">BIOCGTSTAMPID</span></code> + loopback fd (<code class="docutils literal notranslate"><span class="pre">BIOCSSEESENT</span></code>); fallback to <code class="docutils literal notranslate"><span class="pre">CLOCK_REALTIME</span></code></p></td>
+<td><p>BPF (<code class="docutils literal notranslate"><span class="pre">/dev/bpf</span></code>); HW RX timestamp via <code class="docutils literal notranslate"><span class="pre">bpf_xhdr.bh_tstamp</span></code> (<code class="docutils literal notranslate"><span class="pre">BIOCSTSTAMP</span> <span class="pre">BPF_T_BINTIME|BPF_T_PTP</span></code>); TX PHC timestamp via dedicated TX loopback fd (<code class="docutils literal notranslate"><span class="pre">BIOCSSEESENT</span></code>), filtered to Pdelay_Req frames only (BPF message-type 0x02); single static context (not thread-local)</p></td>
 </tr>
 <tr class="row-odd"><td><p>Network Identity</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">ioctl(SIOCGIFHWADDR)</span></code> → EUI-48 → EUI-64</p></td>
@@ -1058,7 +1058,7 @@
 <tbody>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">iface_name</span></code></p></td>
 <td><p>string</p></td>
-<td><p>Network interface for gPTP frames (e.g., <code class="docutils literal notranslate"><span class="pre">eth0</span></code>); default: <code class="docutils literal notranslate"><span class="pre">&quot;eth0&quot;</span></code></p></td>
+<td><p>Network interface for gPTP frames (e.g., <code class="docutils literal notranslate"><span class="pre">emac0</span></code>); default: <code class="docutils literal notranslate"><span class="pre">&quot;emac0&quot;</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">pdelay_interval_ms</span></code></p></td>
 <td><p>int</p></td>
@@ -1076,10 +1076,14 @@
 <td><p>int64_t</p></td>
 <td><p>Threshold above which a positive clock offset is flagged as a forward time jump (ns); default: <code class="docutils literal notranslate"><span class="pre">500</span> <span class="pre">000</span> <span class="pre">000</span></code></p></td>
 </tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">phc_config</span></code></p></td>
+<td><p>PhcConfig</p></td>
+<td><p>PHC hardware clock adjustment settings (see <code class="docutils literal notranslate"><span class="pre">PhcConfig</span></code> table below); disabled by default</p></td>
+</tr>
 </tbody>
 </table>
 </div>
-<p>The <code class="docutils literal notranslate"><span class="pre">PhcConfig</span></code> struct (used by <code class="docutils literal notranslate"><span class="pre">PhcAdjuster</span></code>, configured independently) contains:</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">PhcConfig</span></code> struct (embedded in <code class="docutils literal notranslate"><span class="pre">GptpEngineOptions</span></code>) contains:</p>
 <div class="pst-scrollable-table-container"><table class="table" id="id19">
 <caption><span class="caption-number">Table 9 </span><span class="caption-text">PhcAdjuster Configuration</span><a class="headerlink" href="#id19" title="Link to this table">#</a></caption>
 <colgroup>
