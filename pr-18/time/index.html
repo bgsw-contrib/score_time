@@ -39,10 +39,10 @@
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-data-viewer/jsonview.bundle.css?v=f6ef2277" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-needs/libs/html/datatables.min.css?v=4b4fd840" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-needs/common_css/need_core.css?v=f5b60a78" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-needs/common_css/need_toggle.css?v=5c6620df" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-needs/common_css/needstable.css?v=5e1b6797" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-needs/common_css/need_links.css?v=2150a916" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-needs/common_css/need_style.css?v=92936fa5" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-needs/common_css/needstable.css?v=5e1b6797" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-needs/common_css/need_toggle.css?v=5c6620df" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-needs/common_css/need_links.css?v=2150a916" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-needs/modern.css?v=803738c0" />
   
   <!-- So that users can add custom icons -->
@@ -72,6 +72,7 @@
         </script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Concept for TimeSlave" href="../TimeSlave/index.html" />
     <link rel="prev" title="Concept for TimeDaemon" href="../TimeDaemon/index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -161,6 +162,13 @@
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="#">
     score::time — Unified Clock Interface
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../TimeSlave/index.html">
+    Concept for TimeSlave
   </a>
 </li>
 
@@ -283,6 +291,13 @@
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="#">
     score::time — Unified Clock Interface
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../TimeSlave/index.html">
+    Concept for TimeSlave
   </a>
 </li>
 
@@ -598,7 +613,7 @@ before using the time value.</p>
 <code class="docutils literal notranslate"><span class="pre">IsAvailable()</span></code> for a non-blocking probe, or <code class="docutils literal notranslate"><span class="pre">WaitUntilAvailable()</span></code> when it is
 acceptable to block the calling thread.</p>
 <div style="overflow-x: auto; max-width: 100%;"><p class="plantuml">
-<object data="../_images/plantuml-948678e067f12ad21c52567f795a5916847f5a82.svg" type="image/svg+xml" style="width:736px;height:786px;background:#FFFFFF;"></object></p>
+<object data="../_images/plantuml-3acfd57afee621fbdbc032d922d4de6f9b341502.svg" type="image/svg+xml" style="width:879px;height:802px;background:#FFFFFF;"></object></p>
 </div><p><strong>Code example:</strong></p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;score/time/vehicle_time/vehicle_clock.h&quot;</span>
 <span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;score/stop_token.hpp&gt;</span>
@@ -640,7 +655,7 @@ require an async transport</strong> (currently <code class="docutils literal not
 <li><p><code class="docutils literal notranslate"><span class="pre">PDelayMeasurementData&lt;VehicleTime&gt;</span></code> — fired when a peer-delay measurement completes.</p></li>
 </ul>
 <div style="overflow-x: auto; max-width: 100%;"><p class="plantuml">
-<object data="../_images/plantuml-5a55ae1c99190716b6bb094c629635a4020555df.svg" type="image/svg+xml" style="width:1235px;height:808px;background:#FFFFFF;"></object></p>
+<object data="../_images/plantuml-6079ab5279e5938054a52f99d5cde56a5671722c.svg" type="image/svg+xml" style="width:1104px;height:1085px;background:#FFFFFF;"></object></p>
 </div><p><strong>Code example:</strong></p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;score/time/vehicle_time/vehicle_clock.h&quot;</span>
 <span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;score/time/ptp/time_slave_sync_data.h&quot;</span>
@@ -846,6 +861,15 @@ is modified:</p>
         <p class="prev-next-subtitle">previous</p>
         <p class="prev-next-title">Concept for TimeDaemon</p>
       </div>
+    </a>
+    <a class="right-next"
+       href="../TimeSlave/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Concept for TimeSlave</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
                 </footer>
