@@ -19,7 +19,7 @@
 #include "score/time/vehicle_time/src/vehicle_clock_backend.h"
 #include "score/time/vehicle_time/src/vehicle_clock.h"
 #include "score/time/hpls_time/src/hpls_clock.h"
-#include "score/TimeDaemon/code/ipc/svt/receiver/svt_receiver.h"
+#include "score/time_daemon/src/ipc/svt/receiver/svt_receiver.h"
 
 #include <score/stop_token.hpp>
 

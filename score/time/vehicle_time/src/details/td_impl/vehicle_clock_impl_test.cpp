@@ -12,8 +12,8 @@
  ********************************************************************************/
 #include "score/time/vehicle_time/src/details/td_impl/vehicle_clock_backend_impl.h"
 
-#include "score/TimeDaemon/code/ipc/receiver_mock.h"
-#include "score/TimeDaemon/code/ipc/svt/svt_time_info.h"
+#include "score/time_daemon/src/ipc/receiver_mock.h"
+#include "score/time_daemon/src/ipc/svt/svt_time_info.h"
 #include "score/time/hpls_time/src/hpls_clock_backend_mock.h"
 #include "score/time/clock/src/scoped_clock_override.h"
 #include "score/time/clock/src/clock_snapshot.h"
