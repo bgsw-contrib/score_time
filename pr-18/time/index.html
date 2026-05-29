@@ -442,7 +442,7 @@
 <li><p><a class="reference internal" href="#uc2-availability-waiting-at-startup" id="id8">UC2 — Availability waiting at startup</a></p></li>
 <li><p><a class="reference internal" href="#uc3-async-ptp-event-subscription" id="id9">UC3 — Async PTP event subscription</a></p></li>
 <li><p><a class="reference internal" href="#uc4-status-flag-mapping-diagnostics" id="id10">UC4 — Status flag mapping (diagnostics)</a></p></li>
-<li><p><a class="reference internal" href="#uc5-hplsc-as-reference-steady-clock" id="id11">UC5 — HPLSC as reference steady clock</a></p></li>
+<li><p><a class="reference internal" href="#uc5-hirs-as-reference-steady-clock" id="id11">UC5 — HIRS as reference steady clock</a></p></li>
 </ul>
 </li>
 <li><p><a class="reference internal" href="#bazel-dependencies" id="id12">Bazel dependencies</a></p></li>
@@ -464,7 +464,7 @@ subscribing to PTP protocol events, and checking clock readiness — all through
 template wrapper <code class="docutils literal notranslate"><span class="pre">Clock&lt;Tag&gt;</span></code>.</p>
 <p>The design separates three concerns:</p>
 <ol class="arabic simple">
-<li><p><strong>What kind of time</strong> — expressed as a <em>tag struct</em> (<code class="docutils literal notranslate"><span class="pre">VehicleTime</span></code>, <code class="docutils literal notranslate"><span class="pre">HplsTime</span></code>,
+<li><p><strong>What kind of time</strong> — expressed as a <em>tag struct</em> (<code class="docutils literal notranslate"><span class="pre">VehicleTime</span></code>, <code class="docutils literal notranslate"><span class="pre">HirsTime</span></code>,
 <code class="docutils literal notranslate"><span class="pre">std::chrono::steady_clock</span></code>, <code class="docutils literal notranslate"><span class="pre">std::chrono::system_clock</span></code>).</p></li>
 <li><p><strong>How to access it</strong> — always via <code class="docutils literal notranslate"><span class="pre">Clock&lt;Tag&gt;::GetInstance()</span></code>; never via a factory class.</p></li>
 <li><p><strong>How to use it in testing</strong> — via <code class="docutils literal notranslate"><span class="pre">test_utils::ScopedClockOverride&lt;Tag&gt;</span></code> (scope-bound global
@@ -490,8 +490,8 @@ override when the SUT calls <code class="docutils literal notranslate"><span cla
 <td><p><code class="docutils literal notranslate"><span class="pre">VehicleTime</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">VehicleTimeStatus</span></code> (PTP sync flags + rate deviation)</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">HplsClock</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">HplsTime</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">HirsClock</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">HirsTime</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">NoStatus</span></code> (always-ready local steady clock)</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">SteadyClock</span></code></p></td>
@@ -515,7 +515,7 @@ PTP protocol events.</p>
 <p>The key design upgrade <code class="docutils literal notranslate"><span class="pre">score::time</span></code> brings over typical C-style automotive APIs is
 replacing the <strong>runtime integer time-base selector</strong> with a <strong>compile-time ``Tag``
 template parameter</strong>.  This gives full type-safety and zero runtime dispatch for
-time-domain selection: a component that depends on <code class="docutils literal notranslate"><span class="pre">Clock&lt;HplsTime&gt;</span></code> simply cannot
+time-domain selection: a component that depends on <code class="docutils literal notranslate"><span class="pre">Clock&lt;HirsTime&gt;</span></code> simply cannot
 accidentally read <code class="docutils literal notranslate"><span class="pre">VehicleTime</span></code> at runtime — the compiler enforces the distinction.
 All other structural concepts (composite snapshot result, quality status flags, layered
 backend hiding) follow the same principles as established automotive time
@@ -643,7 +643,7 @@ acceptable to block the calling thread.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p><code class="docutils literal notranslate"><span class="pre">IsAvailable()</span></code> and <code class="docutils literal notranslate"><span class="pre">WaitUntilAvailable()</span></code> are <strong>only available on clock domains that
-require an async transport</strong> (currently <code class="docutils literal notranslate"><span class="pre">VehicleTime</span></code>).  Calling them on <code class="docutils literal notranslate"><span class="pre">HplsTime</span></code>,
+require an async transport</strong> (currently <code class="docutils literal notranslate"><span class="pre">VehicleTime</span></code>).  Calling them on <code class="docutils literal notranslate"><span class="pre">HirsTime</span></code>,
 <code class="docutils literal notranslate"><span class="pre">SteadyClock</span></code>, or <code class="docutils literal notranslate"><span class="pre">SystemClock</span></code> is a <strong>compile error</strong> — those clocks are always ready.</p>
 </div>
 </section>
@@ -716,22 +716,22 @@ the flag type via the tag struct directly:</p>
 </pre></div>
 </div>
 </section>
-<section id="uc5-hplsc-as-reference-steady-clock">
-<h3><a class="toc-backref" href="#id11" role="doc-backlink">UC5 — HPLSC as reference steady clock</a><a class="headerlink" href="#uc5-hplsc-as-reference-steady-clock" title="Link to this heading">#</a></h3>
-<p><code class="docutils literal notranslate"><span class="pre">HplsClock</span></code> (High-Precision Local Steady Clock) is a monotonic clock that provides
+<section id="uc5-hirs-as-reference-steady-clock">
+<h3><a class="toc-backref" href="#id11" role="doc-backlink">UC5 — HIRS as reference steady clock</a><a class="headerlink" href="#uc5-hirs-as-reference-steady-clock" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">HirsClock</span></code> (High-Resolution Steady) is a monotonic clock that provides
 nanosecond-resolution time without any PTP dependency.  It has <strong>no status</strong> — it is always
 ready.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;score/time/hpls_time/hpls_clock.h&quot;</span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;score/time/hirs_time/hirs_clock.h&quot;</span>
 <span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;chrono&gt;</span>
 
 <span class="kt">void</span><span class="w"> </span><span class="nf">MyValidator::CheckDeadline</span><span class="p">()</span>
 <span class="p">{</span>
-<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">hpls</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">score</span><span class="o">::</span><span class="n">time</span><span class="o">::</span><span class="n">HplsClock</span><span class="o">::</span><span class="n">GetInstance</span><span class="p">();</span>
-<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">deadline</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">hpls</span><span class="p">.</span><span class="n">Now</span><span class="p">().</span><span class="n">TimePoint</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">seconds</span><span class="p">{</span><span class="mi">3</span><span class="p">};</span>
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">hirs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">score</span><span class="o">::</span><span class="n">time</span><span class="o">::</span><span class="n">HirsClock</span><span class="o">::</span><span class="n">GetInstance</span><span class="p">();</span>
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">deadline</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">hirs</span><span class="p">.</span><span class="n">Now</span><span class="p">().</span><span class="n">TimePoint</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">seconds</span><span class="p">{</span><span class="mi">3</span><span class="p">};</span>
 
 <span class="w">    </span><span class="c1">// ... do work ...</span>
 
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">hpls</span><span class="p">.</span><span class="n">Now</span><span class="p">().</span><span class="n">TimePoint</span><span class="p">()</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">deadline</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">hirs</span><span class="p">.</span><span class="n">Now</span><span class="p">().</span><span class="n">TimePoint</span><span class="p">()</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">deadline</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="n">HandleDeadlineExceeded</span><span class="p">();</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
@@ -762,13 +762,13 @@ ready.</p>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">//score/time/vehicle_time:interface</span></code></p></td>
 <td><p>Header-only, no backend — interface/type usage only</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">//score/time/hpls_time:hpls_time</span></code></p></td>
-<td><p>Production binary — HPLS steady clock</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">//score/time/hirs_time:hirs_time</span></code></p></td>
+<td><p>Production binary — HIRS steady clock</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">//score/time/hpls_time:hpls_time_mock</span></code></p></td>
-<td><p>Unit test — <code class="docutils literal notranslate"><span class="pre">HplsClockMock</span></code> + scope-bound override or constructor injection</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">//score/time/hirs_time:hirs_time_mock</span></code></p></td>
+<td><p>Unit test — <code class="docutils literal notranslate"><span class="pre">HirsClockMock</span></code> + scope-bound override or constructor injection</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">//score/time/hpls_time:interface</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">//score/time/hirs_time:interface</span></code></p></td>
 <td><p>Header-only</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">//score/time/steady_time:steady_time</span></code></p></td>
@@ -904,7 +904,7 @@ is modified:</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uc2-availability-waiting-at-startup">UC2 — Availability waiting at startup</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uc3-async-ptp-event-subscription">UC3 — Async PTP event subscription</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uc4-status-flag-mapping-diagnostics">UC4 — Status flag mapping (diagnostics)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uc5-hplsc-as-reference-steady-clock">UC5 — HPLSC as reference steady clock</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uc5-hirs-as-reference-steady-clock">UC5 — HIRS as reference steady clock</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bazel-dependencies">Bazel dependencies</a></li>

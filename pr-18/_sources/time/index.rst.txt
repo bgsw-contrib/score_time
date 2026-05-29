@@ -14,7 +14,7 @@ template wrapper ``Clock<Tag>``.
 
 The design separates three concerns:
 
-1. **What kind of time** — expressed as a *tag struct* (``VehicleTime``, ``HplsTime``,
+1. **What kind of time** — expressed as a *tag struct* (``VehicleTime``, ``HirsTime``,
    ``std::chrono::steady_clock``, ``std::chrono::system_clock``).
 2. **How to access it** — always via ``Clock<Tag>::GetInstance()``; never via a factory class.
 3. **How to use it in testing** — via ``test_utils::ScopedClockOverride<Tag>`` (scope-bound global
@@ -34,8 +34,8 @@ Clock domains
    * - ``VehicleClock``
      - ``VehicleTime``
      - ``VehicleTimeStatus`` (PTP sync flags + rate deviation)
-   * - ``HplsClock``
-     - ``HplsTime``
+   * - ``HirsClock``
+     - ``HirsTime``
      - ``NoStatus`` (always-ready local steady clock)
    * - ``SteadyClock``
      - ``std::chrono::steady_clock``
@@ -55,7 +55,7 @@ PTP protocol events.
 The key design upgrade ``score::time`` brings over typical C-style automotive APIs is
 replacing the **runtime integer time-base selector** with a **compile-time ``Tag``
 template parameter**.  This gives full type-safety and zero runtime dispatch for
-time-domain selection: a component that depends on ``Clock<HplsTime>`` simply cannot
+time-domain selection: a component that depends on ``Clock<HirsTime>`` simply cannot
 accidentally read ``VehicleTime`` at runtime — the compiler enforces the distinction.
 All other structural concepts (composite snapshot result, quality status flags, layered
 backend hiding) follow the same principles as established automotive time
@@ -216,7 +216,7 @@ acceptable to block the calling thread.
 .. note::
 
    ``IsAvailable()`` and ``WaitUntilAvailable()`` are **only available on clock domains that
-   require an async transport** (currently ``VehicleTime``).  Calling them on ``HplsTime``,
+   require an async transport** (currently ``VehicleTime``).  Calling them on ``HirsTime``,
    ``SteadyClock``, or ``SystemClock`` is a **compile error** — those clocks are always ready.
 
 UC3 — Async PTP event subscription
@@ -301,26 +301,26 @@ the flag type via the tag struct directly:
        return result;
    }
 
-UC5 — HPLSC as reference steady clock
+UC5 — HIRS as reference steady clock
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-``HplsClock`` (High-Precision Local Steady Clock) is a monotonic clock that provides
+``HirsClock`` (High-Resolution Steady) is a monotonic clock that provides
 nanosecond-resolution time without any PTP dependency.  It has **no status** — it is always
 ready.
 
 .. code-block:: cpp
 
-   #include "score/time/hpls_time/hpls_clock.h"
+   #include "score/time/hirs_time/hirs_clock.h"
    #include <chrono>
 
    void MyValidator::CheckDeadline()
    {
-       auto hpls = score::time::HplsClock::GetInstance();
-       auto deadline = hpls.Now().TimePoint() + std::chrono::seconds{3};
+       auto hirs = score::time::HirsClock::GetInstance();
+       auto deadline = hirs.Now().TimePoint() + std::chrono::seconds{3};
 
        // ... do work ...
 
-       if (hpls.Now().TimePoint() > deadline) {
+       if (hirs.Now().TimePoint() > deadline) {
            HandleDeadlineExceeded();
        }
    }
@@ -342,11 +342,11 @@ Choose the target that matches your use case:
      - Unit test — ``VehicleClockMock`` + scope-bound override or constructor injection
    * - ``//score/time/vehicle_time:interface``
      - Header-only, no backend — interface/type usage only
-   * - ``//score/time/hpls_time:hpls_time``
-     - Production binary — HPLS steady clock
-   * - ``//score/time/hpls_time:hpls_time_mock``
-     - Unit test — ``HplsClockMock`` + scope-bound override or constructor injection
-   * - ``//score/time/hpls_time:interface``
+   * - ``//score/time/hirs_time:hirs_time``
+     - Production binary — HIRS steady clock
+   * - ``//score/time/hirs_time:hirs_time_mock``
+     - Unit test — ``HirsClockMock`` + scope-bound override or constructor injection
+   * - ``//score/time/hirs_time:interface``
      - Header-only
    * - ``//score/time/steady_time:steady_time``
      - ``std::chrono::steady_clock`` wrapper
