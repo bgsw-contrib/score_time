@@ -72,7 +72,7 @@
         </script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Feature Requirements" href="../requirements.html" />
+    <link rel="next" title="Test Cases" href="../test_cases.html" />
     <link rel="prev" title="Concept for time_daemon" href="../time_daemon/index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -340,7 +340,6 @@
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../time_daemon/index.html">Concept for time_daemon</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Concept for time_slave</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../requirements.html">Feature Requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../test_cases.html">Test Cases</a></li>
 </ul>
 </div>
@@ -567,7 +566,7 @@
 <h5>Component requirements<a class="headerlink" href="#component-requirements" title="Link to this heading">#</a></h5>
 <p>The <code class="docutils literal notranslate"><span class="pre">time_slave</span> <span class="pre">Application</span></code> has the following requirements:</p>
 <ul class="simple">
-<li><p>The <code class="docutils literal notranslate"><span class="pre">time_slave</span> <span class="pre">Application</span></code> shall implement the <code class="docutils literal notranslate"><span class="pre">Initialize()</span></code> method to create the <code class="docutils literal notranslate"><span class="pre">GptpEngine</span></code> with configured options, initialize the <code class="docutils literal notranslate"><span class="pre">GptpIpcPublisher</span></code> (creates the shared memory segment), and create the <code class="docutils literal notranslate"><span class="pre">high_precision_local_steady_clock</span></code> for the engine</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">time_slave</span> <span class="pre">Application</span></code> shall implement the <code class="docutils literal notranslate"><span class="pre">Initialize()</span></code> method to create the <code class="docutils literal notranslate"><span class="pre">GptpEngine</span></code> with configured options, initialize the <code class="docutils literal notranslate"><span class="pre">GptpIpcPublisher</span></code> (creates the shared memory segment), and create the <code class="docutils literal notranslate"><span class="pre">HighPrecisionLocalSteadyClock</span></code> for the engine</p></li>
 <li><p>The <code class="docutils literal notranslate"><span class="pre">time_slave</span> <span class="pre">Application</span></code> shall implement the <code class="docutils literal notranslate"><span class="pre">Run()</span></code> method to enter a periodic publish loop (50 ms interval) and monitor the <code class="docutils literal notranslate"><span class="pre">stop_token</span></code> for graceful shutdown</p></li>
 <li><p>On each loop iteration, <code class="docutils literal notranslate"><span class="pre">time_slave</span> <span class="pre">Application</span></code> shall call <code class="docutils literal notranslate"><span class="pre">GptpEngine::FinalizeSnapshot()</span></code>, then <code class="docutils literal notranslate"><span class="pre">GptpEngine::ReadPTPSnapshot(data)</span></code>, and publish the resulting <code class="docutils literal notranslate"><span class="pre">GptpIpcData</span></code> via <code class="docutils literal notranslate"><span class="pre">GptpIpcPublisher::Publish(data)</span></code></p></li>
 <li><p>The <code class="docutils literal notranslate"><span class="pre">time_slave</span> <span class="pre">Application</span></code> shall call <code class="docutils literal notranslate"><span class="pre">GptpEngine::Deinitialize()</span></code> and <code class="docutils literal notranslate"><span class="pre">GptpIpcPublisher::Destroy()</span></code> after the <code class="docutils literal notranslate"><span class="pre">stop_token</span></code> is set</p></li>
@@ -859,7 +858,7 @@
 <td><p><code class="docutils literal notranslate"><span class="pre">clock_adjtime()</span></code> (<code class="docutils literal notranslate"><span class="pre">SYS_clock_adjtime</span></code> syscall); step via <code class="docutils literal notranslate"><span class="pre">ADJ_SETOFFSET|ADJ_NANO</span></code>; slew via <code class="docutils literal notranslate"><span class="pre">ADJ_FREQUENCY</span></code> (scaled-ppm)</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">SIOCGDRVSPEC</span></code> / <code class="docutils literal notranslate"><span class="pre">SIOCSDRVSPEC</span></code> on UDP socket; step via <code class="docutils literal notranslate"><span class="pre">PTP_GET_TIME</span></code> (0x102) + <code class="docutils literal notranslate"><span class="pre">PTP_SET_TIME</span></code> (0x103); slew via <code class="docutils literal notranslate"><span class="pre">EMAC_PTP_ADJ_FREQ_PPM</span></code> (0x200) in ppm</p></td>
 </tr>
-<tr class="row-odd"><td><p>high_precision_local_steady_clock</p></td>
+<tr class="row-odd"><td><p>HighPrecisionLocalSteadyClock</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">CLOCK_MONOTONIC</span></code> via <code class="docutils literal notranslate"><span class="pre">clock_gettime()</span></code></p></td>
 <td><p>QNX <code class="docutils literal notranslate"><span class="pre">ClockCycles()</span></code> CPU instruction (reads hardware performance counter directly, equivalent to <code class="docutils literal notranslate"><span class="pre">RDTSC</span></code> on x86 / <code class="docutils literal notranslate"><span class="pre">CNTVCT</span></code> on ARM64), converted to nanoseconds via cycles-per-second calibration. Used instead of <code class="docutils literal notranslate"><span class="pre">clock_gettime()</span></code> because QNX <code class="docutils literal notranslate"><span class="pre">CLOCK_MONOTONIC</span></code> resolution is limited to microsecond level, whereas <code class="docutils literal notranslate"><span class="pre">ClockCycles()</span></code> provides nanosecond-level precision with no syscall overhead.</p></td>
 </tr>
@@ -1264,7 +1263,7 @@
 <td><p><code class="docutils literal notranslate"><span class="pre">NetworkIdentity</span></code> (ioctl)</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">FakeIdentity</span></code> (fixed clock identity)</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">high_precision_local_steady_clock</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">HighPrecisionLocalSteadyClock</span></code></p></td>
 <td><p>Platform clock (Linux / QNX)</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">FakeClock</span></code> (returns fixed timestamp)</p></td>
 </tr>
@@ -1305,11 +1304,11 @@
       </div>
     </a>
     <a class="right-next"
-       href="../requirements.html"
+       href="../test_cases.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Feature Requirements</p>
+        <p class="prev-next-title">Test Cases</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
