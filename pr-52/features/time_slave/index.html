@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Concept for time_slave &#8212; S-CORE Time  documentation</title>
+    <title>Concept for TimeSlave &#8212; S-CORE Time  documentation</title>
   
   
   
@@ -73,7 +73,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Test Cases" href="../test_cases.html" />
-    <link rel="prev" title="Concept for time_daemon" href="../time_daemon/index.html" />
+    <link rel="prev" title="Concept for TimeDaemon" href="../time_daemon/index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="0.1" />
@@ -338,8 +338,8 @@
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Features:</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../time_daemon/index.html">Concept for time_daemon</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Concept for time_slave</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../time_daemon/index.html">Concept for TimeDaemon</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Concept for TimeSlave</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../test_cases.html">Test Cases</a></li>
 </ul>
 </div>
@@ -384,7 +384,7 @@
     
     <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Features</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Concept for time_slave</span></li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Concept for TimeSlave</span></li>
   </ul>
 </nav>
 </div>
@@ -401,12 +401,12 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="concept-for-time-slave">
-<h1>Concept for time_slave<a class="headerlink" href="#concept-for-time-slave" title="Link to this heading">#</a></h1>
+  <section id="concept-for-timeslave">
+<h1>Concept for TimeSlave<a class="headerlink" href="#concept-for-timeslave" title="Link to this heading">#</a></h1>
 <nav class="contents local" id="table-of-contents">
 <p class="topic-title">Table of Contents</p>
 <ul class="simple">
-<li><p><a class="reference internal" href="#time-slave-concept" id="id22">time_slave concept</a></p>
+<li><p><a class="reference internal" href="#timeslave-concept" id="id22">TimeSlave concept</a></p>
 <ul>
 <li><p><a class="reference internal" href="#use-cases" id="id23">Use Cases</a></p></li>
 <li><p><a class="reference internal" href="#components-decomposition" id="id24">Components decomposition</a></p></li>
@@ -419,14 +419,14 @@
 </li>
 <li><p><a class="reference internal" href="#sw-components-decomposition" id="id29">SW Components decomposition</a></p>
 <ul>
-<li><p><a class="reference internal" href="#time-slave-application-sw-component" id="id30">time_slave Application SW component</a></p></li>
+<li><p><a class="reference internal" href="#timeslave-application-sw-component" id="id30">TimeSlave Application SW component</a></p></li>
 <li><p><a class="reference internal" href="#gptpengine-sw-component" id="id31">GptpEngine SW component</a></p></li>
 <li><p><a class="reference internal" href="#framecodec-sw-component" id="id32">FrameCodec SW component</a></p></li>
 <li><p><a class="reference internal" href="#messageparser-sw-component" id="id33">MessageParser SW component</a></p></li>
 <li><p><a class="reference internal" href="#syncstatemachine-sw-component" id="id34">SyncStateMachine SW component</a></p></li>
 <li><p><a class="reference internal" href="#peerdelaymeasurer-sw-component" id="id35">PeerDelayMeasurer SW component</a></p></li>
 <li><p><a class="reference internal" href="#phcadjuster-sw-component" id="id36">PhcAdjuster SW component</a></p></li>
-<li><p><a class="reference internal" href="#ts-client-sw-component" id="id37">ts_client SW component</a></p></li>
+<li><p><a class="reference internal" href="#libtsclient-sw-component" id="id37">libTSClient SW component</a></p></li>
 </ul>
 </li>
 <li><p><a class="reference internal" href="#platform-support" id="id38">Platform support</a></p></li>
@@ -454,34 +454,34 @@
 </li>
 </ul>
 </nav>
-<section id="time-slave-concept">
-<h2><a class="toc-backref" href="#id22" role="doc-backlink">time_slave concept</a><a class="headerlink" href="#time-slave-concept" title="Link to this heading">#</a></h2>
+<section id="timeslave-concept">
+<h2><a class="toc-backref" href="#id22" role="doc-backlink">TimeSlave concept</a><a class="headerlink" href="#timeslave-concept" title="Link to this heading">#</a></h2>
 <section id="use-cases">
 <h3><a class="toc-backref" href="#id23" role="doc-backlink">Use Cases</a><a class="headerlink" href="#use-cases" title="Link to this heading">#</a></h3>
-<p>time_slave is a standalone gPTP (IEEE 802.1AS) slave endpoint process that implements the low-level time synchronization protocol for the Eclipse SCORE time system. It is deployed as a separate process from the time_daemon to isolate real-time network I/O from the higher-level time validation and distribution logic.</p>
-<p>More precisely we can specify the following use cases for the time_slave:</p>
+<p>TimeSlave is a standalone gPTP (IEEE 802.1AS) slave endpoint process that implements the low-level time synchronization protocol for the Eclipse SCORE time system. It is deployed as a separate process from the TimeDaemon to isolate real-time network I/O from the higher-level time validation and distribution logic.</p>
+<p>More precisely we can specify the following use cases for the TimeSlave:</p>
 <ol class="arabic simple">
 <li><p>Receiving gPTP Sync/FollowUp messages from a Time Master on the Ethernet network</p></li>
 <li><p>Measuring peer delay via the IEEE 802.1AS PDelayReq/PDelayResp exchange</p></li>
 <li><p>Optionally adjusting the PTP Hardware Clock (PHC) on the NIC</p></li>
-<li><p>Publishing the resulting <code class="docutils literal notranslate"><span class="pre">GptpIpcData</span></code> to shared memory for consumption by the time_daemon</p></li>
+<li><p>Publishing the resulting <code class="docutils literal notranslate"><span class="pre">GptpIpcData</span></code> to shared memory for consumption by the TimeDaemon</p></li>
 </ol>
 <p>The raw architectural diagram is represented below.</p>
 <div style="overflow-x: auto; max-width: 100%;"><p class="plantuml">
-<object data="../../_images/plantuml-51e8ff3be2c9226e8d67fe575f7e8e7cfb0a30dd.svg" type="image/svg+xml" style="width:930px;height:860px;background:#FFFFFF;"></object></p>
+<object data="../../_images/plantuml-706f3d76c5ad3edf9abda37cdade33aac16238e3.svg" type="image/svg+xml" style="width:930px;height:860px;background:#FFFFFF;"></object></p>
 </div></section>
 <section id="components-decomposition">
 <h3><a class="toc-backref" href="#id24" role="doc-backlink">Components decomposition</a><a class="headerlink" href="#components-decomposition" title="Link to this heading">#</a></h3>
 <p>The design consists of several sw components:</p>
 <ol class="arabic simple">
-<li><p><a class="reference external" href="#timeslave-application-sw-component">time_slave Application</a></p></li>
+<li><p><a class="reference external" href="#timeslave-application-sw-component">TimeSlave Application</a></p></li>
 <li><p><a class="reference external" href="#gptpengine-sw-component">GptpEngine</a></p></li>
 <li><p><a class="reference external" href="#framecodec-sw-component">FrameCodec</a></p></li>
 <li><p><a class="reference external" href="#messageparser-sw-component">MessageParser</a></p></li>
 <li><p><a class="reference external" href="#syncstatemachine-sw-component">SyncStateMachine</a></p></li>
 <li><p><a class="reference external" href="#peerdelaymeasurer-sw-component">PeerDelayMeasurer</a></p></li>
 <li><p><a class="reference external" href="#phcadjuster-sw-component">PhcAdjuster</a></p></li>
-<li><p><a class="reference external" href="#ts_client/src-sw-component">ts_client</a></p></li>
+<li><p><a class="reference external" href="#libtsclient-sw-component">libTSClient</a></p></li>
 <li><p><a class="reference external" href="#shmptpengine-sw-component">ShmPTPEngine</a></p></li>
 </ol>
 </section>
@@ -490,14 +490,14 @@
 <p>Main classes and components are presented on this diagram:</p>
 <div style="overflow-x: auto; max-width: 100%;"><figure class="align-center">
 <p class="plantuml">
-<object data="../../_images/plantuml-1eb9a835c8bc55bbe68f01bad8bd17e55aad00c3.svg" type="image/svg+xml" style="width:2065px;height:1130px;background:#FFFFFF;"></object></p>
+<object data="../../_images/plantuml-72d370117c20a26d9eb743b63c9e73b7e714c9bb.svg" type="image/svg+xml" style="width:2065px;height:1130px;background:#FFFFFF;"></object></p>
 </figure>
 </div></section>
 <section id="data-and-control-flow">
 <h3><a class="toc-backref" href="#id26" role="doc-backlink">Data and control flow</a><a class="headerlink" href="#data-and-control-flow" title="Link to this heading">#</a></h3>
 <p>The Data and Control flow are presented in the following diagram:</p>
 <div style="overflow-x: auto; max-width: 100%;"><p class="plantuml">
-<object data="../../_images/plantuml-6eca3e231290629c0e1cc075413aca38b3f3e019.svg" type="image/svg+xml" style="width:2355px;height:1429px;background:#FFFFFF;"></object></p>
+<object data="../../_images/plantuml-7affe73cb56cde832c9e9ebe2edb8989c2baf3b2.svg" type="image/svg+xml" style="width:2355px;height:1429px;background:#FFFFFF;"></object></p>
 </div><p>On this view you could see several “workers” scopes:</p>
 <ol class="arabic simple">
 <li><p>RxThread scope</p></li>
@@ -553,23 +553,23 @@
 </section>
 <section id="ptptimeinfo">
 <h5>PtpTimeInfo<a class="headerlink" href="#ptptimeinfo" title="Link to this heading">#</a></h5>
-<p><code class="docutils literal notranslate"><span class="pre">PtpTimeInfo</span></code> is the time_daemon-internal aggregated snapshot. It is <strong>not</strong> the shared memory type; it is produced by <code class="docutils literal notranslate"><span class="pre">ShmPTPEngine::ReadPTPSnapshot()</span></code> by field-mapping from <code class="docutils literal notranslate"><span class="pre">GptpIpcData</span></code> into the format expected by the time_daemon pipeline.</p>
+<p><code class="docutils literal notranslate"><span class="pre">PtpTimeInfo</span></code> is the TimeDaemon-internal aggregated snapshot. It is <strong>not</strong> the shared memory type; it is produced by <code class="docutils literal notranslate"><span class="pre">ShmPTPEngine::ReadPTPSnapshot()</span></code> by field-mapping from <code class="docutils literal notranslate"><span class="pre">GptpIpcData</span></code> into the format expected by the TimeDaemon pipeline.</p>
 </section>
 </section>
 </section>
 <section id="sw-components-decomposition">
 <h3><a class="toc-backref" href="#id29" role="doc-backlink">SW Components decomposition</a><a class="headerlink" href="#sw-components-decomposition" title="Link to this heading">#</a></h3>
-<section id="time-slave-application-sw-component">
-<h4><a class="toc-backref" href="#id30" role="doc-backlink">time_slave Application SW component</a><a class="headerlink" href="#time-slave-application-sw-component" title="Link to this heading">#</a></h4>
-<p>The <code class="docutils literal notranslate"><span class="pre">time_slave</span> <span class="pre">Application</span></code> component is the main entry point for the time_slave process. It extends <code class="docutils literal notranslate"><span class="pre">score::mw::lifecycle::Application</span></code> and is responsible for orchestrating the overall lifecycle of the GptpEngine and the IPC publisher.</p>
+<section id="timeslave-application-sw-component">
+<h4><a class="toc-backref" href="#id30" role="doc-backlink">TimeSlave Application SW component</a><a class="headerlink" href="#timeslave-application-sw-component" title="Link to this heading">#</a></h4>
+<p>The <code class="docutils literal notranslate"><span class="pre">TimeSlave</span> <span class="pre">Application</span></code> component is the main entry point for the TimeSlave process. It extends <code class="docutils literal notranslate"><span class="pre">score::mw::lifecycle::Application</span></code> and is responsible for orchestrating the overall lifecycle of the GptpEngine and the IPC publisher.</p>
 <section id="component-requirements">
 <h5>Component requirements<a class="headerlink" href="#component-requirements" title="Link to this heading">#</a></h5>
-<p>The <code class="docutils literal notranslate"><span class="pre">time_slave</span> <span class="pre">Application</span></code> has the following requirements:</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">TimeSlave</span> <span class="pre">Application</span></code> has the following requirements:</p>
 <ul class="simple">
-<li><p>The <code class="docutils literal notranslate"><span class="pre">time_slave</span> <span class="pre">Application</span></code> shall implement the <code class="docutils literal notranslate"><span class="pre">Initialize()</span></code> method to create the <code class="docutils literal notranslate"><span class="pre">GptpEngine</span></code> with configured options, initialize the <code class="docutils literal notranslate"><span class="pre">GptpIpcPublisher</span></code> (creates the shared memory segment), and create the <code class="docutils literal notranslate"><span class="pre">HighPrecisionLocalSteadyClock</span></code> for the engine</p></li>
-<li><p>The <code class="docutils literal notranslate"><span class="pre">time_slave</span> <span class="pre">Application</span></code> shall implement the <code class="docutils literal notranslate"><span class="pre">Run()</span></code> method to enter a periodic publish loop (50 ms interval) and monitor the <code class="docutils literal notranslate"><span class="pre">stop_token</span></code> for graceful shutdown</p></li>
-<li><p>On each loop iteration, <code class="docutils literal notranslate"><span class="pre">time_slave</span> <span class="pre">Application</span></code> shall call <code class="docutils literal notranslate"><span class="pre">GptpEngine::FinalizeSnapshot()</span></code>, then <code class="docutils literal notranslate"><span class="pre">GptpEngine::ReadPTPSnapshot(data)</span></code>, and publish the resulting <code class="docutils literal notranslate"><span class="pre">GptpIpcData</span></code> via <code class="docutils literal notranslate"><span class="pre">GptpIpcPublisher::Publish(data)</span></code></p></li>
-<li><p>The <code class="docutils literal notranslate"><span class="pre">time_slave</span> <span class="pre">Application</span></code> shall call <code class="docutils literal notranslate"><span class="pre">GptpEngine::Deinitialize()</span></code> and <code class="docutils literal notranslate"><span class="pre">GptpIpcPublisher::Destroy()</span></code> after the <code class="docutils literal notranslate"><span class="pre">stop_token</span></code> is set</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">TimeSlave</span> <span class="pre">Application</span></code> shall implement the <code class="docutils literal notranslate"><span class="pre">Initialize()</span></code> method to create the <code class="docutils literal notranslate"><span class="pre">GptpEngine</span></code> with configured options, initialize the <code class="docutils literal notranslate"><span class="pre">GptpIpcPublisher</span></code> (creates the shared memory segment), and create the <code class="docutils literal notranslate"><span class="pre">HighPrecisionLocalSteadyClock</span></code> for the engine</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">TimeSlave</span> <span class="pre">Application</span></code> shall implement the <code class="docutils literal notranslate"><span class="pre">Run()</span></code> method to enter a periodic publish loop (50 ms interval) and monitor the <code class="docutils literal notranslate"><span class="pre">stop_token</span></code> for graceful shutdown</p></li>
+<li><p>On each loop iteration, <code class="docutils literal notranslate"><span class="pre">TimeSlave</span> <span class="pre">Application</span></code> shall call <code class="docutils literal notranslate"><span class="pre">GptpEngine::FinalizeSnapshot()</span></code>, then <code class="docutils literal notranslate"><span class="pre">GptpEngine::ReadPTPSnapshot(data)</span></code>, and publish the resulting <code class="docutils literal notranslate"><span class="pre">GptpIpcData</span></code> via <code class="docutils literal notranslate"><span class="pre">GptpIpcPublisher::Publish(data)</span></code></p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">TimeSlave</span> <span class="pre">Application</span></code> shall call <code class="docutils literal notranslate"><span class="pre">GptpEngine::Deinitialize()</span></code> and <code class="docutils literal notranslate"><span class="pre">GptpIpcPublisher::Destroy()</span></code> after the <code class="docutils literal notranslate"><span class="pre">stop_token</span></code> is set</p></li>
 </ul>
 </section>
 </section>
@@ -598,7 +598,7 @@
 <h5>Threading model<a class="headerlink" href="#threading-model" title="Link to this heading">#</a></h5>
 <p>The GptpEngine operates with two background threads. The threading model is represented below:</p>
 <div style="overflow-x: auto; max-width: 100%;"><p class="plantuml">
-<object data="../../_images/plantuml-549aed3f30598968d8e220154ce930bbe6d93cab.svg" type="image/svg+xml" style="width:819px;height:1042px;background:#FFFFFF;"></object></p>
+<object data="../../_images/plantuml-981746be8e4025e70229e566c45436df3d885388.svg" type="image/svg+xml" style="width:819px;height:1042px;background:#FFFFFF;"></object></p>
 </div></section>
 <section id="concurrency-aspects">
 <h5>Concurrency aspects<a class="headerlink" href="#concurrency-aspects" title="Link to this heading">#</a></h5>
@@ -780,33 +780,33 @@
 </ul>
 </li>
 </ol>
-<p>In both scenarios time_slave continues to track the master clock and publish accurate <code class="docutils literal notranslate"><span class="pre">GptpIpcData</span></code> snapshots (including offset and status flags) to shared memory. The downstream time_daemon and any applications consuming time are unaffected — only the NIC hardware clock itself will drift relative to PTP time.</p>
+<p>In both scenarios TimeSlave continues to track the master clock and publish accurate <code class="docutils literal notranslate"><span class="pre">GptpIpcData</span></code> snapshots (including offset and status flags) to shared memory. The downstream TimeDaemon and any applications consuming time are unaffected — only the NIC hardware clock itself will drift relative to PTP time.</p>
 </section>
 </section>
-<section id="ts-client-sw-component">
-<h4><a class="toc-backref" href="#id37" role="doc-backlink">ts_client SW component</a><a class="headerlink" href="#ts-client-sw-component" title="Link to this heading">#</a></h4>
-<p>The <code class="docutils literal notranslate"><span class="pre">ts_client</span></code> component is the shared memory IPC library that connects the time_slave process to the time_daemon process. It provides a lock-free, single-writer/multi-reader communication channel using a seqlock protocol over POSIX shared memory.</p>
-<p>The component provides two sub components: publisher and receiver to be deployed on the time_slave and time_daemon sides accordingly.</p>
+<section id="libtsclient-sw-component">
+<h4><a class="toc-backref" href="#id37" role="doc-backlink">libTSClient SW component</a><a class="headerlink" href="#libtsclient-sw-component" title="Link to this heading">#</a></h4>
+<p>The <code class="docutils literal notranslate"><span class="pre">libTSClient</span></code> component is the shared memory IPC library that connects the TimeSlave process to the TimeDaemon process. It provides a lock-free, single-writer/multi-reader communication channel using a seqlock protocol over POSIX shared memory.</p>
+<p>The component provides two sub components: publisher and receiver to be deployed on the TimeSlave and TimeDaemon sides accordingly.</p>
 <section id="id8">
 <h5>Component requirements<a class="headerlink" href="#id8" title="Link to this heading">#</a></h5>
-<p>The <code class="docutils literal notranslate"><span class="pre">ts_client</span></code> has the following requirements:</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">libTSClient</span></code> has the following requirements:</p>
 <ul class="simple">
-<li><p>The <code class="docutils literal notranslate"><span class="pre">ts_client</span></code> shall define a shared memory layout (<code class="docutils literal notranslate"><span class="pre">GptpIpcRegion</span></code>) with a magic number (<code class="docutils literal notranslate"><span class="pre">0x47505450</span></code> = ‘GPTP’) for validation, an atomic seqlock counter (<code class="docutils literal notranslate"><span class="pre">seq</span></code>), a confirmation counter (<code class="docutils literal notranslate"><span class="pre">seq_confirm</span></code>), and a <code class="docutils literal notranslate"><span class="pre">GptpIpcData</span></code> data payload</p></li>
-<li><p>The <code class="docutils literal notranslate"><span class="pre">ts_client</span></code> shall align the shared memory region to 64 bytes (cache line size) to prevent false sharing</p></li>
-<li><p>The <code class="docutils literal notranslate"><span class="pre">ts_client</span></code> shall provide a <code class="docutils literal notranslate"><span class="pre">GptpIpcPublisher</span></code> component (in <code class="docutils literal notranslate"><span class="pre">score::ts::details</span></code>) that creates and manages the POSIX shared memory segment and writes <code class="docutils literal notranslate"><span class="pre">GptpIpcData</span></code> using the seqlock protocol</p></li>
-<li><p>The <code class="docutils literal notranslate"><span class="pre">ts_client</span></code> shall provide a <code class="docutils literal notranslate"><span class="pre">GptpIpcReceiver</span></code> component (in <code class="docutils literal notranslate"><span class="pre">score::ts::details</span></code>) that opens the shared memory segment read-only and reads <code class="docutils literal notranslate"><span class="pre">GptpIpcData</span></code> with up to 20 seqlock retries</p></li>
-<li><p>The <code class="docutils literal notranslate"><span class="pre">ts_client</span></code> shall use the POSIX shared memory name <code class="docutils literal notranslate"><span class="pre">/gptp_ptp_info</span></code> by default</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">libTSClient</span></code> shall define a shared memory layout (<code class="docutils literal notranslate"><span class="pre">GptpIpcRegion</span></code>) with a magic number (<code class="docutils literal notranslate"><span class="pre">0x47505450</span></code> = ‘GPTP’) for validation, an atomic seqlock counter (<code class="docutils literal notranslate"><span class="pre">seq</span></code>), a confirmation counter (<code class="docutils literal notranslate"><span class="pre">seq_confirm</span></code>), and a <code class="docutils literal notranslate"><span class="pre">GptpIpcData</span></code> data payload</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">libTSClient</span></code> shall align the shared memory region to 64 bytes (cache line size) to prevent false sharing</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">libTSClient</span></code> shall provide a <code class="docutils literal notranslate"><span class="pre">GptpIpcPublisher</span></code> component (in <code class="docutils literal notranslate"><span class="pre">score::ts::details</span></code>) that creates and manages the POSIX shared memory segment and writes <code class="docutils literal notranslate"><span class="pre">GptpIpcData</span></code> using the seqlock protocol</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">libTSClient</span></code> shall provide a <code class="docutils literal notranslate"><span class="pre">GptpIpcReceiver</span></code> component (in <code class="docutils literal notranslate"><span class="pre">score::ts::details</span></code>) that opens the shared memory segment read-only and reads <code class="docutils literal notranslate"><span class="pre">GptpIpcData</span></code> with up to 20 seqlock retries</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">libTSClient</span></code> shall use the POSIX shared memory name <code class="docutils literal notranslate"><span class="pre">/gptp_ptp_info</span></code> by default</p></li>
 </ul>
 </section>
 <section id="id9">
 <h5>Class view<a class="headerlink" href="#id9" title="Link to this heading">#</a></h5>
 <p>The Class Diagram is presented below:</p>
 <div style="overflow-x: auto; max-width: 100%;"><p class="plantuml">
-<object data="../../_images/plantuml-3685140d2a4af1a3e27de5dc159113c6dbd1b5df.svg" type="image/svg+xml" style="width:1546px;height:839px;background:#FFFFFF;"></object></p>
+<object data="../../_images/plantuml-121aceec9a430711e08a04ea7deda91b81ca2421.svg" type="image/svg+xml" style="width:1546px;height:839px;background:#FFFFFF;"></object></p>
 </div></section>
 <section id="publish-new-data">
 <h5>Publish new data<a class="headerlink" href="#publish-new-data" title="Link to this heading">#</a></h5>
-<p>When <code class="docutils literal notranslate"><span class="pre">time_slave</span> <span class="pre">Application</span></code> has a new <code class="docutils literal notranslate"><span class="pre">GptpIpcData</span></code> snapshot, it publishes to the shared memory via the seqlock protocol:</p>
+<p>When <code class="docutils literal notranslate"><span class="pre">TimeSlave</span> <span class="pre">Application</span></code> has a new <code class="docutils literal notranslate"><span class="pre">GptpIpcData</span></code> snapshot, it publishes to the shared memory via the seqlock protocol:</p>
 <ol class="arabic simple">
 <li><p>Increment <code class="docutils literal notranslate"><span class="pre">seq</span></code> (becomes odd — signals write in progress); a release fence is applied</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">memcpy</span></code> the <code class="docutils literal notranslate"><span class="pre">GptpIpcData</span></code></p></li>
@@ -815,7 +815,7 @@
 </section>
 <section id="receive-data">
 <h5>Receive data<a class="headerlink" href="#receive-data" title="Link to this heading">#</a></h5>
-<p>From time_daemon side, the receiver reads from the shared memory using the seqlock protocol with bounded retry:</p>
+<p>From TimeDaemon side, the receiver reads from the shared memory using the seqlock protocol with bounded retry:</p>
 <ol class="arabic simple">
 <li><p>Read <code class="docutils literal notranslate"><span class="pre">seq1</span></code> with acquire ordering (must be even, otherwise retry — write in progress)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">memcpy</span></code> the <code class="docutils literal notranslate"><span class="pre">GptpIpcData</span></code></p></li>
@@ -825,13 +825,13 @@
 </ol>
 <p>The seqlock protocol workflow is presented in the following sequence diagram:</p>
 <div style="overflow-x: auto; max-width: 100%;"><p class="plantuml">
-<object data="../../_images/plantuml-414908a3d4a36d03e2b19af92a7a69bb0d9ed33f.svg" type="image/svg+xml" style="width:1131px;height:1114px;background:#FFFFFF;"></object></p>
+<object data="../../_images/plantuml-8971b2e58e953c802c0b8bbab0fc5ff08313c7ee.svg" type="image/svg+xml" style="width:1131px;height:1114px;background:#FFFFFF;"></object></p>
 </div></section>
 </section>
 </section>
 <section id="platform-support">
 <h3><a class="toc-backref" href="#id38" role="doc-backlink">Platform support</a><a class="headerlink" href="#platform-support" title="Link to this heading">#</a></h3>
-<p>time_slave supports two target platforms with platform-specific implementations selected at compile time via Bazel <code class="docutils literal notranslate"><span class="pre">select()</span></code>:</p>
+<p>TimeSlave supports two target platforms with platform-specific implementations selected at compile time via Bazel <code class="docutils literal notranslate"><span class="pre">select()</span></code>:</p>
 <div class="pst-scrollable-table-container"><table class="table" id="id13">
 <caption><span class="caption-number">Table 3 </span><span class="caption-text">Platform Implementations</span><a class="headerlink" href="#id13" title="Link to this table">#</a></caption>
 <colgroup>
@@ -1004,7 +1004,7 @@
 </section>
 <section id="logging-configuration">
 <h3><a class="toc-backref" href="#id42" role="doc-backlink">Logging configuration</a><a class="headerlink" href="#logging-configuration" title="Link to this heading">#</a></h3>
-<p>The time_slave and its time_daemon-side adapter use the following logging contexts:</p>
+<p>The TimeSlave and its TimeDaemon-side adapter use the following logging contexts:</p>
 <div class="pst-scrollable-table-container"><table class="table" id="id17">
 <caption><span class="caption-number">Table 7 </span><span class="caption-text">Logging Contexts</span><a class="headerlink" href="#id17" title="Link to this table">#</a></caption>
 <colgroup>
@@ -1019,7 +1019,7 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>time_slave Application</p></td>
+<tr class="row-even"><td><p>TimeSlave Application</p></td>
 <td><p>TSAP</p></td>
 <td><p><strong>T</strong>ime<strong>S</strong>lave <strong>App</strong>lication lifecycle (Initialize / Run)</p></td>
 </tr>
@@ -1027,9 +1027,9 @@
 <td><p>GTPS</p></td>
 <td><p><strong>GPTP</strong> <strong>SLAVE</strong> engine — low-level protocol processing</p></td>
 </tr>
-<tr class="row-even"><td><p>ShmPTPEngine (time_daemon side)</p></td>
+<tr class="row-even"><td><p>ShmPTPEngine (TimeDaemon side)</p></td>
 <td><p>GPTP</p></td>
-<td><p>time_daemon <strong>GPTP</strong> machine adapter (Initialize / ReadPTPSnapshot)</p></td>
+<td><p>TimeDaemon <strong>GPTP</strong> machine adapter (Initialize / ReadPTPSnapshot)</p></td>
 </tr>
 </tbody>
 </table>
@@ -1114,7 +1114,7 @@
 </section>
 <section id="scalability">
 <h4><a class="toc-backref" href="#id45" role="doc-backlink">Scalability</a><a class="headerlink" href="#scalability" title="Link to this heading">#</a></h4>
-<p>The time_slave architecture supports the following extensibility points:</p>
+<p>The TimeSlave architecture supports the following extensibility points:</p>
 <section id="platform-extensibility">
 <h5>Platform extensibility<a class="headerlink" href="#platform-extensibility" title="Link to this heading">#</a></h5>
 <ol class="arabic simple">
@@ -1129,8 +1129,8 @@
 <li><p>The shared memory IPC channel name is configurable (<code class="docutils literal notranslate"><span class="pre">GptpIpcPublisher::Init(name)</span></code> / <code class="docutils literal notranslate"><span class="pre">GptpIpcReceiver::Init(name)</span></code>), allowing multiple gPTP instances per ECU if needed</p></li>
 </ol>
 </section>
-<section id="time-daemon-integration-extensibility">
-<h5>time_daemon integration extensibility<a class="headerlink" href="#time-daemon-integration-extensibility" title="Link to this heading">#</a></h5>
+<section id="timedaemon-integration-extensibility">
+<h5>TimeDaemon integration extensibility<a class="headerlink" href="#timedaemon-integration-extensibility" title="Link to this heading">#</a></h5>
 <ol class="arabic simple">
 <li><p>The <code class="docutils literal notranslate"><span class="pre">ShmPTPEngine</span></code> implements the same <code class="docutils literal notranslate"><span class="pre">PTPEngine</span></code> concept as other <code class="docutils literal notranslate"><span class="pre">PTPMachine</span></code> backends, making it transparently exchangeable with any other engine implementation</p></li>
 <li><p>Alternative IPC mechanisms (e.g., socket-based) can be introduced by implementing a new engine class without modifying the <code class="docutils literal notranslate"><span class="pre">PTPMachine</span></code> template or downstream components</p></li>
@@ -1139,8 +1139,8 @@
 </section>
 <section id="shmptpengine-sw-component">
 <h4><a class="toc-backref" href="#id46" role="doc-backlink">ShmPTPEngine SW component</a><a class="headerlink" href="#shmptpengine-sw-component" title="Link to this heading">#</a></h4>
-<p>The <code class="docutils literal notranslate"><span class="pre">ShmPTPEngine</span></code> component (in <code class="docutils literal notranslate"><span class="pre">score::td::details</span></code>) is the time_daemon-side adapter that reads <code class="docutils literal notranslate"><span class="pre">GptpIpcData</span></code> from the shared memory channel written by time_slave and converts it into the <code class="docutils literal notranslate"><span class="pre">PtpTimeInfo</span></code> structure expected by the time_daemon pipeline.</p>
-<p>It is instantiated as <code class="docutils literal notranslate"><span class="pre">GPTPShmMachine</span></code> — a type alias for <code class="docutils literal notranslate"><span class="pre">PTPMachine&lt;details::ShmPTPEngine&gt;</span></code> — which connects <code class="docutils literal notranslate"><span class="pre">ShmPTPEngine</span></code> to the time_daemon’s internal <code class="docutils literal notranslate"><span class="pre">MessageBroker</span></code>.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">ShmPTPEngine</span></code> component (in <code class="docutils literal notranslate"><span class="pre">score::td::details</span></code>) is the TimeDaemon-side adapter that reads <code class="docutils literal notranslate"><span class="pre">GptpIpcData</span></code> from the shared memory channel written by TimeSlave and converts it into the <code class="docutils literal notranslate"><span class="pre">PtpTimeInfo</span></code> structure expected by the TimeDaemon pipeline.</p>
+<p>It is instantiated as <code class="docutils literal notranslate"><span class="pre">GPTPShmMachine</span></code> — a type alias for <code class="docutils literal notranslate"><span class="pre">PTPMachine&lt;details::ShmPTPEngine&gt;</span></code> — which connects <code class="docutils literal notranslate"><span class="pre">ShmPTPEngine</span></code> to the TimeDaemon’s internal <code class="docutils literal notranslate"><span class="pre">MessageBroker</span></code>.</p>
 <section id="id10">
 <h5>Component requirements<a class="headerlink" href="#id10" title="Link to this heading">#</a></h5>
 <p>The <code class="docutils literal notranslate"><span class="pre">ShmPTPEngine</span></code> has the following requirements:</p>
@@ -1156,21 +1156,21 @@
 <h5>Class view<a class="headerlink" href="#id11" title="Link to this heading">#</a></h5>
 <p>The Class Diagram is presented below:</p>
 <div style="overflow-x: auto; max-width: 100%;"><p class="plantuml">
-<object data="../../_images/plantuml-5bec670b3de3fb6256f0facdcc026ea0e0b0eb95.svg" type="image/svg+xml" style="width:1028px;height:1267px;background:#FFFFFF;"></object></p>
+<object data="../../_images/plantuml-dc2397eb096498b86a6379e97731c2d245852c84.svg" type="image/svg+xml" style="width:1028px;height:1267px;background:#FFFFFF;"></object></p>
 </div></section>
 <section id="component-initialization">
 <h5>Component initialization<a class="headerlink" href="#component-initialization" title="Link to this heading">#</a></h5>
 <p>During initialization the <code class="docutils literal notranslate"><span class="pre">ShmPTPEngine</span></code> shall open the shared memory channel to be able to read from it.</p>
 <p>The initialization workflow is represented in the following sequence diagram:</p>
 <div style="overflow-x: auto; max-width: 100%;"><p class="plantuml">
-<object data="../../_images/plantuml-c26f5cdfc7192b9028df24fab53f6a3054636cce.svg" type="image/svg+xml" style="width:1434px;height:1023px;background:#FFFFFF;"></object></p>
+<object data="../../_images/plantuml-b46d202aaeea8a96b9a5344f8cb977a8151ea923.svg" type="image/svg+xml" style="width:1434px;height:1023px;background:#FFFFFF;"></object></p>
 </div></section>
 <section id="read-ptp-snapshot">
 <h5>Read PTP snapshot<a class="headerlink" href="#read-ptp-snapshot" title="Link to this heading">#</a></h5>
 <p>After <code class="docutils literal notranslate"><span class="pre">ShmPTPEngine</span></code> reads the latest <code class="docutils literal notranslate"><span class="pre">GptpIpcData</span></code> from shared memory, it maps it to <code class="docutils literal notranslate"><span class="pre">PtpTimeInfo</span></code> and publishes via the <code class="docutils literal notranslate"><span class="pre">MessageBroker</span></code>.</p>
 <p>The periodic read and publish workflow is described below:</p>
 <div style="overflow-x: auto; max-width: 100%;"><p class="plantuml">
-<object data="../../_images/plantuml-d16b39a240dbced5983c428b69e2db323cd193b6.svg" type="image/svg+xml" style="width:1424px;height:907px;background:#FFFFFF;"></object></p>
+<object data="../../_images/plantuml-f797a36ff9c6a490c5c418237ba67e0366ff482a.svg" type="image/svg+xml" style="width:1424px;height:907px;background:#FFFFFF;"></object></p>
 </div></section>
 <section id="data-mapping">
 <h5>Data mapping<a class="headerlink" href="#data-mapping" title="Link to this heading">#</a></h5>
@@ -1234,13 +1234,13 @@
 <h3><a class="toc-backref" href="#id47" role="doc-backlink">Using in test environment</a><a class="headerlink" href="#using-in-test-environment" title="Link to this heading">#</a></h3>
 <section id="using-in-itf">
 <h4><a class="toc-backref" href="#id48" role="doc-backlink">Using in ITF</a><a class="headerlink" href="#using-in-itf" title="Link to this heading">#</a></h4>
-<p>Normal behavior is expected. time_slave runs as a standalone process, communicates over real Ethernet, and writes to <code class="docutils literal notranslate"><span class="pre">/gptp_ptp_info</span></code> shared memory as in production.</p>
+<p>Normal behavior is expected. TimeSlave runs as a standalone process, communicates over real Ethernet, and writes to <code class="docutils literal notranslate"><span class="pre">/gptp_ptp_info</span></code> shared memory as in production.</p>
 </section>
 <section id="using-in-component-tests-on-the-host">
 <h4><a class="toc-backref" href="#id49" role="doc-backlink">Using in Component Tests on the host</a><a class="headerlink" href="#using-in-component-tests-on-the-host" title="Link to this heading">#</a></h4>
 <section id="overview">
 <h5>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h5>
-<p>The <code class="docutils literal notranslate"><span class="pre">time_slave</span></code> and its constituent components can be tested on an x86 Linux host without PTP hardware or a real network. The key platform-dependent abstractions all have test-injectable counterparts:</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">TimeSlave</span></code> and its constituent components can be tested on an x86 Linux host without PTP hardware or a real network. The key platform-dependent abstractions all have test-injectable counterparts:</p>
 <div class="pst-scrollable-table-container"><table class="table" id="id21">
 <caption><span class="caption-number">Table 11 </span><span class="caption-text">Testable Abstractions</span><a class="headerlink" href="#id21" title="Link to this table">#</a></caption>
 <colgroup>
@@ -1300,7 +1300,7 @@
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Concept for time_daemon</p>
+        <p class="prev-next-title">Concept for TimeDaemon</p>
       </div>
     </a>
     <a class="right-next"
@@ -1331,7 +1331,7 @@
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#time-slave-concept">time_slave concept</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#timeslave-concept">TimeSlave concept</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#use-cases">Use Cases</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#components-decomposition">Components decomposition</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#class-view">Class view</a></li>
@@ -1352,7 +1352,7 @@
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sw-components-decomposition">SW Components decomposition</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#time-slave-application-sw-component">time_slave Application SW component</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#timeslave-application-sw-component">TimeSlave Application SW component</a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#component-requirements">Component requirements</a></li>
 </ul>
 </li>
@@ -1386,7 +1386,7 @@
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#fallback-behavior-when-phc-is-unavailable">Fallback behavior when PHC is unavailable</a></li>
 </ul>
 </li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ts-client-sw-component">ts_client SW component</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#libtsclient-sw-component">libTSClient SW component</a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">Component requirements</a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">Class view</a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#publish-new-data">Publish new data</a></li>
@@ -1407,7 +1407,7 @@
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#scalability">Scalability</a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#platform-extensibility">Platform extensibility</a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#protocol-extensibility">Protocol extensibility</a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#time-daemon-integration-extensibility">time_daemon integration extensibility</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#timedaemon-integration-extensibility">TimeDaemon integration extensibility</a></li>
 </ul>
 </li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#shmptpengine-sw-component">ShmPTPEngine SW component</a><ul class="nav section-nav flex-column">

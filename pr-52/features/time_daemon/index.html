@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Concept for time_daemon &#8212; S-CORE Time  documentation</title>
+    <title>Concept for TimeDaemon &#8212; S-CORE Time  documentation</title>
   
   
   
@@ -72,7 +72,7 @@
         </script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Concept for time_slave" href="../time_slave/index.html" />
+    <link rel="next" title="Concept for TimeSlave" href="../time_slave/index.html" />
     <link rel="prev" title="Features" href="../index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -338,8 +338,8 @@
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Features:</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Concept for time_daemon</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../time_slave/index.html">Concept for time_slave</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Concept for TimeDaemon</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../time_slave/index.html">Concept for TimeSlave</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../test_cases.html">Test Cases</a></li>
 </ul>
 </div>
@@ -384,7 +384,7 @@
     
     <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Features</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Concept for time_daemon</span></li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Concept for TimeDaemon</span></li>
   </ul>
 </nav>
 </div>
@@ -401,12 +401,12 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="concept-for-time-daemon">
-<h1>Concept for time_daemon<a class="headerlink" href="#concept-for-time-daemon" title="Link to this heading">#</a></h1>
+  <section id="concept-for-timedaemon">
+<h1>Concept for TimeDaemon<a class="headerlink" href="#concept-for-timedaemon" title="Link to this heading">#</a></h1>
 <nav class="contents local" id="table-of-contents">
 <p class="topic-title">Table of Contents</p>
 <ul class="simple">
-<li><p><a class="reference internal" href="#time-daemon-concept" id="id37">time_daemon concept</a></p>
+<li><p><a class="reference internal" href="#timedaemon-concept" id="id37">TimeDaemon concept</a></p>
 <ul>
 <li><p><a class="reference internal" href="#use-cases" id="id38">Use Cases</a></p></li>
 <li><p><a class="reference internal" href="#components-decomposition" id="id39">Components decomposition</a></p></li>
@@ -453,11 +453,11 @@
 </li>
 </ul>
 </nav>
-<section id="time-daemon-concept">
-<h2><a class="toc-backref" href="#id37" role="doc-backlink">time_daemon concept</a><a class="headerlink" href="#time-daemon-concept" title="Link to this heading">#</a></h2>
+<section id="timedaemon-concept">
+<h2><a class="toc-backref" href="#id37" role="doc-backlink">TimeDaemon concept</a><a class="headerlink" href="#timedaemon-concept" title="Link to this heading">#</a></h2>
 <section id="use-cases">
 <h3><a class="toc-backref" href="#id38" role="doc-backlink">Use Cases</a><a class="headerlink" href="#use-cases" title="Link to this heading">#</a></h3>
-<p>time_daemon is the non Autosar adaptive process who is intended to get the Vehicle Time from the ptp slave daemon (ptpd or any other), verify and validate the timepoints and distribute time information across the clients.</p>
+<p>TimeDaemon is the non Autosar adaptive process who is intended to get the Vehicle Time from the ptp slave daemon (ptpd or any other), verify and validate the timepoints and distribute time information across the clients.</p>
 <p>More precisely we can specify the following use cases for the time daemon:</p>
 <ol class="arabic simple">
 <li><p>Providing current Vehicle time to different applications</p></li>
@@ -493,14 +493,14 @@
 <p>Main classes and components are presented on this diagram:</p>
 <div style="overflow-x: auto; max-width: 100%;"><figure class="align-center">
 <p class="plantuml">
-<object data="../../_images/plantuml-7db7ab2c6d6f6f9b1135a2da6931d5a85cc1c164.svg" type="image/svg+xml" style="width:1804px;height:935px;background:#FFFFFF;"></object></p>
+<object data="../../_images/plantuml-c76a85f7f6f0d3e934546bbe5e382aae7a787346.svg" type="image/svg+xml" style="width:1804px;height:935px;background:#FFFFFF;"></object></p>
 </figure>
 </div></section>
 <section id="data-and-control-flow">
 <h3><a class="toc-backref" href="#id42" role="doc-backlink">Data and control flow</a><a class="headerlink" href="#data-and-control-flow" title="Link to this heading">#</a></h3>
 <p>The Data and Control flow are presented in the following diagram:</p>
 <div style="overflow-x: auto; max-width: 100%;"><p class="plantuml">
-<object data="../../_images/plantuml-fdf11b4a98afa3c775e7ec16db81092e7c37fde5.svg" type="image/svg+xml" style="width:1863px;height:1142px;background:#FFFFFF;"></object></p>
+<object data="../../_images/plantuml-e4bc155d2ccb0353c8228f395ecd61b0ef893bab.svg" type="image/svg+xml" style="width:1863px;height:1142px;background:#FFFFFF;"></object></p>
 </div><p>On this view you could see several “workers” scopes:</p>
 <ol class="arabic simple">
 <li><p>PTP retrieving scope</p></li>
@@ -555,7 +555,7 @@
 <h3><a class="toc-backref" href="#id45" role="doc-backlink">SW Components decomposition</a><a class="headerlink" href="#sw-components-decomposition" title="Link to this heading">#</a></h3>
 <section id="application-sw-component">
 <h4><a class="toc-backref" href="#id46" role="doc-backlink">Application SW component</a><a class="headerlink" href="#application-sw-component" title="Link to this heading">#</a></h4>
-<p>The <code class="docutils literal notranslate"><span class="pre">Application</span></code> component is the main entry point for the <code class="docutils literal notranslate"><span class="pre">time_daemon</span></code>. It is responsible for orchestrating the overall lifecycle and initialization of all daemon components.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">Application</span></code> component is the main entry point for the <code class="docutils literal notranslate"><span class="pre">TimeDaemon</span></code>. It is responsible for orchestrating the overall lifecycle and initialization of all daemon components.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">TimebaseHandler</span></code> component is an timebase-specific logic implementation. There might be several handlers available in the <code class="docutils literal notranslate"><span class="pre">Application</span></code> per amount of timebases supported. This separation allows for different timebase implementations while maintaining a consistent application structure.</p>
 <section id="component-requirements">
 <h5>Component requirements<a class="headerlink" href="#component-requirements" title="Link to this heading">#</a></h5>
@@ -571,7 +571,7 @@
 <h5>Class view<a class="headerlink" href="#id3" title="Link to this heading">#</a></h5>
 <p>The Class Diagram is presented below:</p>
 <div style="overflow-x: auto; max-width: 100%;"><p class="plantuml">
-<object data="../../_images/plantuml-46f828df09e7b0a19fa439e910d0fd4fa5d20a7f.svg" type="image/svg+xml" style="width:872px;height:584px;background:#FFFFFF;"></object></p>
+<object data="../../_images/plantuml-8ae8c4bb25c47a5e6c5082b03384ccf7ca94a520.svg" type="image/svg+xml" style="width:872px;height:584px;background:#FFFFFF;"></object></p>
 </div></section>
 <section id="initialization-flow">
 <h5>Initialization flow<a class="headerlink" href="#initialization-flow" title="Link to this heading">#</a></h5>
@@ -595,7 +595,7 @@
 </ul>
 <p>The initialization workflow is represented in the following sequence diagram:</p>
 <div style="overflow-x: auto; max-width: 100%;"><p class="plantuml">
-<object data="../../_images/plantuml-88796e4c2dccf4871ef9c7b1d9e64044063a67a1.svg" type="image/svg+xml" style="width:1133px;height:831px;background:#FFFFFF;"></object></p>
+<object data="../../_images/plantuml-844e15bd0ba962eae5a0026ecf8621b779475f81.svg" type="image/svg+xml" style="width:1133px;height:831px;background:#FFFFFF;"></object></p>
 </div></section>
 <section id="execution-and-shutdown-flow">
 <h5>Execution and shutdown flow<a class="headerlink" href="#execution-and-shutdown-flow" title="Link to this heading">#</a></h5>
@@ -607,12 +607,12 @@
 </ul>
 <p>The execution and shutdown workflow is represented in the following sequence diagram:</p>
 <div style="overflow-x: auto; max-width: 100%;"><p class="plantuml">
-<object data="../../_images/plantuml-b1bdc96f4151d69fd2470f96cf6c560d510fd5f7.svg" type="image/svg+xml" style="width:1103px;height:950px;background:#FFFFFF;"></object></p>
+<object data="../../_images/plantuml-ba68f66e99b2efdbc4de5f17592b20daa09b0143.svg" type="image/svg+xml" style="width:1103px;height:950px;background:#FFFFFF;"></object></p>
 </div></section>
 </section>
 <section id="message-broker-sw-component">
 <h4><a class="toc-backref" href="#id47" role="doc-backlink">Message Broker SW component</a><a class="headerlink" href="#message-broker-sw-component" title="Link to this heading">#</a></h4>
-<p>The <code class="docutils literal notranslate"><span class="pre">Message</span> <span class="pre">Broker</span></code> component is the central communication hub that implements the Publish-Subscribe pattern within the <code class="docutils literal notranslate"><span class="pre">time_daemon</span></code>. It enables decoupled communication between components by managing topics and distributing messages to interested subscribers.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">Message</span> <span class="pre">Broker</span></code> component is the central communication hub that implements the Publish-Subscribe pattern within the <code class="docutils literal notranslate"><span class="pre">TimeDaemon</span></code>. It enables decoupled communication between components by managing topics and distributing messages to interested subscribers.</p>
 <p>The component maintains a registry of topics and their subscribers, delivering messages to all registered subscribers when a component publishes to a topic. This decoupling allows components to evolve independently without direct dependencies on each other.</p>
 <section id="id4">
 <h5>Component requirements<a class="headerlink" href="#id4" title="Link to this heading">#</a></h5>
@@ -634,7 +634,7 @@
 <p>During initialization, all machine objects, see <code class="docutils literal notranslate"><span class="pre">BaseMachine</span></code>, the <code class="docutils literal notranslate"><span class="pre">Application</span></code> component needs to subscribe machines to <code class="docutils literal notranslate"><span class="pre">Message</span> <span class="pre">Broker</span></code> to the topics of interest.</p>
 <p>The initialization workflow is represented in the following sequence diagram:</p>
 <div style="overflow-x: auto; max-width: 100%;"><p class="plantuml">
-<object data="../../_images/plantuml-c0635e7e3124fad58f892e15a22f6109fb84f969.svg" type="image/svg+xml" style="width:983px;height:741px;background:#FFFFFF;"></object></p>
+<object data="../../_images/plantuml-7635206b9e065d4912d1a2bd09799eb69f0c70ab.svg" type="image/svg+xml" style="width:983px;height:741px;background:#FFFFFF;"></object></p>
 </div></section>
 <section id="message-flow">
 <h5>Message flow<a class="headerlink" href="#message-flow" title="Link to this heading">#</a></h5>
@@ -655,7 +655,7 @@ To separate the control flows, the <a class="reference external" href="#controlf
 </section>
 <section id="controlflowdivider-sw-component">
 <h4><a class="toc-backref" href="#id48" role="doc-backlink">ControlFlowDivider SW component</a><a class="headerlink" href="#controlflowdivider-sw-component" title="Link to this heading">#</a></h4>
-<p>The <code class="docutils literal notranslate"><span class="pre">ControlFlowDivider</span></code> component is responsible for separating control (execution) flows within the <code class="docutils literal notranslate"><span class="pre">time_daemon</span></code> and providing the execution control flow for the data processing. It contains dedicated threads where data is published to the <code class="docutils literal notranslate"><span class="pre">Message</span> <span class="pre">Broker</span></code>, ensuring that blocking operations in one component do not affect the execution of other components and data missing is not affecting the data analysis in processing pipeline.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">ControlFlowDivider</span></code> component is responsible for separating control (execution) flows within the <code class="docutils literal notranslate"><span class="pre">TimeDaemon</span></code> and providing the execution control flow for the data processing. It contains dedicated threads where data is published to the <code class="docutils literal notranslate"><span class="pre">Message</span> <span class="pre">Broker</span></code>, ensuring that blocking operations in one component do not affect the execution of other components and data missing is not affecting the data analysis in processing pipeline.</p>
 <p>This component acts as a crucial intermediary that maintains the responsiveness of the system by decoupling the execution contexts of different operations, particularly between the PTP data retrieval and the time data processing pipelines.</p>
 <section id="id8">
 <h5>Component requirements<a class="headerlink" href="#id8" title="Link to this heading">#</a></h5>
@@ -688,7 +688,7 @@ To separate the control flows, the <a class="reference external" href="#controlf
 </ul>
 <p>The initialization workflow is represented in the following sequence diagram:</p>
 <div style="overflow-x: auto; max-width: 100%;"><p class="plantuml">
-<object data="../../_images/plantuml-7b25d806925b932a8db36550f1654196b21feea8.svg" type="image/svg+xml" style="width:728px;height:650px;background:#FFFFFF;"></object></p>
+<object data="../../_images/plantuml-3eeed9d4fee0faa49dd8e5a73744448a45c2884b.svg" type="image/svg+xml" style="width:728px;height:650px;background:#FFFFFF;"></object></p>
 </div></section>
 <section id="id11">
 <h5>Message flow<a class="headerlink" href="#id11" title="Link to this heading">#</a></h5>
@@ -700,10 +700,10 @@ To separate the control flows, the <a class="reference external" href="#controlf
 <li><p>The worker thread publishes the retrieved data to the <a class="reference external" href="#input-ptp-data">input_ptp_data</a> topic</p></li>
 <li><p>if there was no data for some timeout, the worker shall published the empty data to the <a class="reference external" href="#input-ptp-data">input_ptp_data</a> topic.</p></li>
 </ol>
-<p>This separation of control flows ensures that slow or blocking operations in the PTP stack communication do not affect the responsiveness of time data processing in the <code class="docutils literal notranslate"><span class="pre">time_daemon</span></code>.</p>
+<p>This separation of control flows ensures that slow or blocking operations in the PTP stack communication do not affect the responsiveness of time data processing in the <code class="docutils literal notranslate"><span class="pre">TimeDaemon</span></code>.</p>
 <p>The execution workflow is represented in the following sequence diagram:</p>
 <div style="overflow-x: auto; max-width: 100%;"><p class="plantuml">
-<object data="../../_images/plantuml-608621d66bd49c383651f2ce549c04543017640b.svg" type="image/svg+xml" style="width:958px;height:1050px;background:#FFFFFF;"></object></p>
+<object data="../../_images/plantuml-a6e7c7a679723895be8f76948e00e7a714780010.svg" type="image/svg+xml" style="width:958px;height:1050px;background:#FFFFFF;"></object></p>
 </div></section>
 </section>
 <section id="ptp-machine-sw-component">
@@ -734,7 +734,7 @@ All communication with the ptp stack ight use <code class="docutils literal notr
 <p>During initialization the <code class="docutils literal notranslate"><span class="pre">PTP</span> <span class="pre">Machine</span></code> shall initialize the ptp stack to be able to communicate with it.</p>
 <p>The initialization workflow is described below.</p>
 <div style="overflow-x: auto; max-width: 100%;"><p class="plantuml">
-<object data="../../_images/plantuml-3e3100036721379dce1480690de2a389b17f6e55.svg" type="image/svg+xml" style="width:777px;height:902px;background:#FFFFFF;"></object></p>
+<object data="../../_images/plantuml-78e6aba303811ddc7863351f1f3675bd95fc86e0.svg" type="image/svg+xml" style="width:777px;height:902px;background:#FFFFFF;"></object></p>
 </div></section>
 <section id="publish-new-data">
 <h5>Publish new data<a class="headerlink" href="#publish-new-data" title="Link to this heading">#</a></h5>
@@ -776,7 +776,7 @@ All communication with the ptp stack ight use <code class="docutils literal notr
 <p>The component shall be subscribed by the <code class="docutils literal notranslate"><span class="pre">Application</span></code> to the <a class="reference external" href="#input-ptp-data">input_ptp_data</a> topic of the <code class="docutils literal notranslate"><span class="pre">MessageBroker</span></code></p>
 <p>The initialization workflow is represented in the following sequence diagram:</p>
 <div style="overflow-x: auto; max-width: 100%;"><p class="plantuml">
-<object data="../../_images/plantuml-0a3e283c2e111b53ec121429752ea8f00cef5e92.svg" type="image/svg+xml" style="width:912px;height:723px;background:#FFFFFF;"></object></p>
+<object data="../../_images/plantuml-6e000be171eb5ebffe459be5b7aabb8494f8f2b6.svg" type="image/svg+xml" style="width:912px;height:723px;background:#FFFFFF;"></object></p>
 </div></section>
 <section id="data-verification-workflow">
 <h5>Data verification workflow<a class="headerlink" href="#data-verification-workflow" title="Link to this heading">#</a></h5>
@@ -788,7 +788,7 @@ All communication with the ptp stack ight use <code class="docutils literal notr
 <section id="ipc-machine-sw-component">
 <h4><a class="toc-backref" href="#id51" role="doc-backlink">IPC Machine SW component</a><a class="headerlink" href="#ipc-machine-sw-component" title="Link to this heading">#</a></h4>
 <p>The <code class="docutils literal notranslate"><span class="pre">IPC</span> <span class="pre">Machine</span></code> component shall get the <a class="reference external" href="#verified-ptp-data">verified-ptp-data</a> from the <code class="docutils literal notranslate"><span class="pre">Verification</span> <span class="pre">Machine</span></code> and provide it to the <code class="docutils literal notranslate"><span class="pre">score::time::svt</span></code> through the <code class="docutils literal notranslate"><span class="pre">score::communication</span></code> module. As the fast initial implementation, a custom shared memory backend is used.</p>
-<p>The component provides two sub components: publisher and receiver to be deployed on the time_daemon and Application sides accordingly.</p>
+<p>The component provides two sub components: publisher and receiver to be deployed on the TimeDaemon and Application sides accordingly.</p>
 <section id="id24">
 <h5>Component requirements<a class="headerlink" href="#id24" title="Link to this heading">#</a></h5>
 <p>The <code class="docutils literal notranslate"><span class="pre">IPC</span> <span class="pre">Machine</span></code> has the following requirements:</p>
@@ -809,13 +809,13 @@ All communication with the ptp stack ight use <code class="docutils literal notr
 <h5>Component initialization<a class="headerlink" href="#id27" title="Link to this heading">#</a></h5>
 <p>Initialization is divided to two parts:</p>
 <ol class="arabic simple">
-<li><p>Initialization on the time_daemon side</p></li>
+<li><p>Initialization on the TimeDaemon side</p></li>
 <li><p>Initialization on the Application side</p></li>
 </ol>
-<p>Important thing, the <code class="docutils literal notranslate"><span class="pre">score::communication</span></code> publisher shall be created and offered by the <code class="docutils literal notranslate"><span class="pre">time_daemon</span></code> before the Application side subscriber can connect. The Application shall retry until the service is found.</p>
+<p>Important thing, the <code class="docutils literal notranslate"><span class="pre">score::communication</span></code> publisher shall be created and offered by the <code class="docutils literal notranslate"><span class="pre">TimeDaemon</span></code> before the Application side subscriber can connect. The Application shall retry until the service is found.</p>
 <p>The main workflow is described below.</p>
 <div style="overflow-x: auto; max-width: 100%;"><p class="plantuml">
-<object data="../../_images/plantuml-4cd35e89113d1079bd39885aa10f2f20dbce9af0.svg" type="image/svg+xml" style="width:1412px;height:650px;background:#FFFFFF;"></object></p>
+<object data="../../_images/plantuml-4296e5579e5c620e5a374c1b70aeca0b7795ac6d.svg" type="image/svg+xml" style="width:1412px;height:650px;background:#FFFFFF;"></object></p>
 </div><p>The component shall be subscribed during initialization by the <code class="docutils literal notranslate"><span class="pre">Application</span></code> on the <a class="reference external" href="#verified-ptp-data">verified-ptp-data</a> updates from the <code class="docutils literal notranslate"><span class="pre">Message</span> <span class="pre">Broker</span></code></p>
 </section>
 <section id="id29">
@@ -829,7 +829,7 @@ All communication with the ptp stack ight use <code class="docutils literal notr
 <p>All <code class="docutils literal notranslate"><span class="pre">PTPTimeInfo</span></code> data (or almost all) shall be published to the subscribed applications.</p>
 <p>The publish workflow is described below.</p>
 <div style="overflow-x: auto; max-width: 100%;"><p class="plantuml">
-<object data="../../_images/plantuml-c95174fc53c2fe5b8755a707380d6bd663c40bad.svg" type="image/svg+xml" style="width:775px;height:511px;background:#FFFFFF;"></object></p>
+<object data="../../_images/plantuml-a7786403cc02a36eb9f53e06892861be767cde5e.svg" type="image/svg+xml" style="width:775px;height:511px;background:#FFFFFF;"></object></p>
 </div></section>
 <section id="receive-data">
 <h5>Receive data<a class="headerlink" href="#receive-data" title="Link to this heading">#</a></h5>
@@ -898,7 +898,7 @@ All communication with the ptp stack ight use <code class="docutils literal notr
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>time_daemon</p></td>
+<tr class="row-even"><td><p>TimeDaemon</p></td>
 <td><p>TDON</p></td>
 <td><p><strong>T</strong>ime<strong>D</strong>aem<strong>ON</strong></p></td>
 </tr>
@@ -938,7 +938,7 @@ All communication with the ptp stack ight use <code class="docutils literal notr
 <h3><a class="toc-backref" href="#id54" role="doc-backlink">Variability</a><a class="headerlink" href="#variability" title="Link to this heading">#</a></h3>
 <section id="configuration-files">
 <h4><a class="toc-backref" href="#id55" role="doc-backlink">Configuration files</a><a class="headerlink" href="#configuration-files" title="Link to this heading">#</a></h4>
-<p>The <code class="docutils literal notranslate"><span class="pre">time_daemon</span></code> uses structured configuration files to enable customization of its runtime behavior. These data could be configured:</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">TimeDaemon</span></code> uses structured configuration files to enable customization of its runtime behavior. These data could be configured:</p>
 <ol class="arabic simple">
 <li><p>Component-specific Configuration:</p>
 <ol class="loweralpha simple">
@@ -1005,7 +1005,7 @@ All communication with the ptp stack ight use <code class="docutils literal notr
 </section>
 <section id="id34">
 <h4><a class="toc-backref" href="#id56" role="doc-backlink">Scalability</a><a class="headerlink" href="#id34" title="Link to this heading">#</a></h4>
-<p>The <code class="docutils literal notranslate"><span class="pre">time_daemon</span></code>’s architecture supports scalability in the following ways:</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">TimeDaemon</span></code>’s architecture supports scalability in the following ways:</p>
 <section id="component-extensibility">
 <h5>Component Extensibility:<a class="headerlink" href="#component-extensibility" title="Link to this heading">#</a></h5>
 <ol class="arabic simple">
@@ -1016,14 +1016,14 @@ All communication with the ptp stack ight use <code class="docutils literal notr
 </section>
 <section id="example-based-on-qualified-vehicle-time-integration">
 <h5>Example based on Qualified Vehicle Time integration<a class="headerlink" href="#example-based-on-qualified-vehicle-time-integration" title="Link to this heading">#</a></h5>
-<p>The <code class="docutils literal notranslate"><span class="pre">Qualified</span> <span class="pre">Vehicle</span> <span class="pre">Time</span></code> integration extends the standard <code class="docutils literal notranslate"><span class="pre">time_daemon</span></code> architecture with:</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">Qualified</span> <span class="pre">Vehicle</span> <span class="pre">Time</span></code> integration extends the standard <code class="docutils literal notranslate"><span class="pre">TimeDaemon</span></code> architecture with:</p>
 <ol class="arabic simple">
 <li><p>A <code class="docutils literal notranslate"><span class="pre">Qualified</span> <span class="pre">Vehicle</span> <span class="pre">Time</span></code> component that performs additional time qualification and provide new topics: <code class="docutils literal notranslate"><span class="pre">qualified_ptp_data</span></code> and <code class="docutils literal notranslate"><span class="pre">diagnostic_sct_data</span></code></p></li>
 <li><p>A dedicated IPC channel for SCT diagnostic data</p></li>
 <li><p>A <code class="docutils literal notranslate"><span class="pre">score::time::qvt</span></code> library for diagnostic applications</p></li>
 </ol>
 <div style="overflow-x: auto; max-width: 100%;"><p class="plantuml">
-<object data="../../_images/plantuml-223ff48cbe5b4d3482f02d60f011e249a1698ba5.svg" type="image/svg+xml" style="width:531px;height:1051px;background:#FFFFFF;"></object></p>
+<object data="../../_images/plantuml-d7be5b2275bb409142b78c9ea79756bab082e971.svg" type="image/svg+xml" style="width:531px;height:1051px;background:#FFFFFF;"></object></p>
 </div><p>The <code class="docutils literal notranslate"><span class="pre">Qualified</span> <span class="pre">Vehicle</span> <span class="pre">Time</span></code> component is integrated into the existing processing pipeline:</p>
 <ol class="arabic simple">
 <li><p>It subscribes to the <a class="reference external" href="#verified-ptp-data">verified_ptp_data</a> topic from the <code class="docutils literal notranslate"><span class="pre">VerificationMachine</span></code></p></li>
@@ -1041,8 +1041,8 @@ All communication with the ptp stack ight use <code class="docutils literal notr
 </div></section>
 <section id="example-based-on-absolute-time-integration">
 <h5>Example based on Absolute Time integration<a class="headerlink" href="#example-based-on-absolute-time-integration" title="Link to this heading">#</a></h5>
-<p>Another example of the <code class="docutils literal notranslate"><span class="pre">time_daemon</span></code> extension is the integration of an <code class="docutils literal notranslate"><span class="pre">Absolute</span> <span class="pre">Time</span></code> source, such as GNSS, to provide absolute time information alongside the relative Vehicle Time from PTP.</p>
-<p>The <code class="docutils literal notranslate"><span class="pre">Absolute</span> <span class="pre">Time</span></code> integration extends the standard <code class="docutils literal notranslate"><span class="pre">time_daemon</span></code> architecture with:</p>
+<p>Another example of the <code class="docutils literal notranslate"><span class="pre">TimeDaemon</span></code> extension is the integration of an <code class="docutils literal notranslate"><span class="pre">Absolute</span> <span class="pre">Time</span></code> source, such as GNSS, to provide absolute time information alongside the relative Vehicle Time from PTP.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">Absolute</span> <span class="pre">Time</span></code> integration extends the standard <code class="docutils literal notranslate"><span class="pre">TimeDaemon</span></code> architecture with:</p>
 <ol class="arabic simple">
 <li><p>An <code class="docutils literal notranslate"><span class="pre">SDatMachine</span></code> component that retrieves absolute time from GNSS via SOMEIP or other sources and provide new topics: <code class="docutils literal notranslate"><span class="pre">absolute_time_data</span></code></p></li>
 <li><p>A dedicated verification stage in the <code class="docutils literal notranslate"><span class="pre">VerificationMachine</span></code> for Absolute Time qualification</p></li>
@@ -1051,10 +1051,10 @@ All communication with the ptp stack ight use <code class="docutils literal notr
 </ol>
 <p>The way how it is integrated is presented below.</p>
 <div style="overflow-x: auto; max-width: 100%;"><p class="plantuml">
-<object data="../../_images/plantuml-a81f2ade2550ae7b2dc803ceb5386e43b8a73377.svg" type="image/svg+xml" style="width:777px;height:1088px;background:#FFFFFF;"></object></p>
+<object data="../../_images/plantuml-19287a1d33d3671bee52069a4a424955b7c7a4c8.svg" type="image/svg+xml" style="width:777px;height:1088px;background:#FFFFFF;"></object></p>
 </div><p>The control and data flow with Absolute Time integration is shown below.</p>
 <div style="overflow-x: auto; max-width: 100%;"><p class="plantuml">
-<object data="../../_images/plantuml-abb1fb625a46dbf8aa32a4754d24d32523f094b2.svg" type="image/svg+xml" style="width:1435px;height:751px;background:#FFFFFF;"></object></p>
+<object data="../../_images/plantuml-5c822deda2989d2b1176a96791d9144c3a92e091.svg" type="image/svg+xml" style="width:1435px;height:751px;background:#FFFFFF;"></object></p>
 </div></section>
 </section>
 </section>
@@ -1068,10 +1068,10 @@ All communication with the ptp stack ight use <code class="docutils literal notr
 <h4><a class="toc-backref" href="#id59" role="doc-backlink">Using in Component Tests on the host</a><a class="headerlink" href="#using-in-component-tests-on-the-host" title="Link to this heading">#</a></h4>
 <section id="overview">
 <h5>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h5>
-<p>The <code class="docutils literal notranslate"><span class="pre">time_daemon</span></code> can be utilized in the <code class="docutils literal notranslate"><span class="pre">Component</span> <span class="pre">Tests</span></code> environment to enable comprehensive testing of time-dependent components without relying on physical PTP hardware.
+<p>The <code class="docutils literal notranslate"><span class="pre">TimeDaemon</span></code> can be utilized in the <code class="docutils literal notranslate"><span class="pre">Component</span> <span class="pre">Tests</span></code> environment to enable comprehensive testing of time-dependent components without relying on physical PTP hardware.
 This approach allows test cases to manipulate time values and synchronization states to validate application behavior under various timing conditions.</p>
 <p>For the Component tests the <code class="docutils literal notranslate"><span class="pre">PtpMachine::PtpEngine</span></code> library is the only one platform-dependent.
-Thus the <code class="docutils literal notranslate"><span class="pre">time_daemon</span></code> components remain largely unchanged except for the <code class="docutils literal notranslate"><span class="pre">PTPMachine</span></code> component, which is replaced with an test-specific implementation that can be controlled via test cases
+Thus the <code class="docutils literal notranslate"><span class="pre">TimeDaemon</span></code> components remain largely unchanged except for the <code class="docutils literal notranslate"><span class="pre">PTPMachine</span></code> component, which is replaced with an test-specific implementation that can be controlled via test cases
 This component shall:</p>
 <ol class="arabic simple">
 <li><p>simulate “normal” <code class="docutils literal notranslate"><span class="pre">PTPMachine</span></code> behavior</p></li>
@@ -1082,7 +1082,7 @@ This component shall:</p>
 </section>
 <section id="next-steps-plugin-system">
 <h3><a class="toc-backref" href="#id60" role="doc-backlink">Next steps: plugin system</a><a class="headerlink" href="#next-steps-plugin-system" title="Link to this heading">#</a></h3>
-<p>The <code class="docutils literal notranslate"><span class="pre">time_daemon</span></code> could be extended with a flexible plugin system that enables dynamic component loading, configuration, subscription and extension without requiring code changes or recompilation.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">TimeDaemon</span></code> could be extended with a flexible plugin system that enables dynamic component loading, configuration, subscription and extension without requiring code changes or recompilation.</p>
 <section id="plugin-architecture">
 <h4><a class="toc-backref" href="#id61" role="doc-backlink">Plugin Architecture</a><a class="headerlink" href="#plugin-architecture" title="Link to this heading">#</a></h4>
 <p>The plugin system is structured around the following key elements:</p>
@@ -1095,7 +1095,7 @@ This component shall:</p>
 </section>
 <section id="component-creation-process">
 <h4><a class="toc-backref" href="#id62" role="doc-backlink">Component Creation Process</a><a class="headerlink" href="#component-creation-process" title="Link to this heading">#</a></h4>
-<p>During <code class="docutils literal notranslate"><span class="pre">time_daemon</span></code> initialization:</p>
+<p>During <code class="docutils literal notranslate"><span class="pre">TimeDaemon</span></code> initialization:</p>
 <ol class="arabic simple">
 <li><p>The <code class="docutils literal notranslate"><span class="pre">Plugin</span> <span class="pre">Manager</span></code> loads all specified plugins from configured directories or bazel targets</p></li>
 <li><p>Each plugin registers its component factories with the registry</p></li>
@@ -1112,7 +1112,7 @@ This component shall:</p>
 </section>
 <section id="asil-b-qualification">
 <h3><a class="toc-backref" href="#id63" role="doc-backlink">ASIL-B qualification</a><a class="headerlink" href="#asil-b-qualification" title="Link to this heading">#</a></h3>
-<p>Clean separation of concerns allows <code class="docutils literal notranslate"><span class="pre">score::time::svt</span></code> as well as <code class="docutils literal notranslate"><span class="pre">time_daemon</span></code> to be qualified according to ASIL-B requirements following ISO 26262 standard.</p>
+<p>Clean separation of concerns allows <code class="docutils literal notranslate"><span class="pre">score::time::svt</span></code> as well as <code class="docutils literal notranslate"><span class="pre">TimeDaemon</span></code> to be qualified according to ASIL-B requirements following ISO 26262 standard.</p>
 </section>
 </section>
 </section>
@@ -1141,7 +1141,7 @@ This component shall:</p>
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Concept for time_slave</p>
+        <p class="prev-next-title">Concept for TimeSlave</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -1164,7 +1164,7 @@ This component shall:</p>
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#time-daemon-concept">time_daemon concept</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#timedaemon-concept">TimeDaemon concept</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#use-cases">Use Cases</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#components-decomposition">Components decomposition</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#deployment-view">Deployment view</a></li>
