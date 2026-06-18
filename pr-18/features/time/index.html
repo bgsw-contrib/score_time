@@ -597,7 +597,7 @@ alongside the timepoint.</p>
 <p class="admonition-title">Note</p>
 <p><code class="docutils literal notranslate"><span class="pre">Init()</span></code> must be called once during application startup before <code class="docutils literal notranslate"><span class="pre">Now()</span></code> is expected
 to return synchronized data (see VT2).  Without it, <code class="docutils literal notranslate"><span class="pre">Now()</span></code> returns a snapshot with
-<code class="docutils literal notranslate"><span class="pre">kUnknown</span></code> status.</p>
+no flags set (<code class="docutils literal notranslate"><span class="pre">IsConsistent()</span></code> returns <code class="docutils literal notranslate"><span class="pre">false</span></code>).</p>
 </div>
 <p><strong>Status flags:</strong></p>
 <div class="pst-scrollable-table-container"><table class="table">
@@ -610,20 +610,14 @@ to return synchronized data (see VT2).  Without it, <code class="docutils litera
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">kSynchronized</span></code></p></td>
 <td><p>Synchronized at least once to the PTP Grand Master</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">kSynchToGateway</span></code></p></td>
-<td><p>Currently in sync with the PTP gateway</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">kTimeOut</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">kTimeOut</span></code></p></td>
 <td><p>No sync message received within the configured time window</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">kTimeLeapFuture</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">kTimeLeapFuture</span></code></p></td>
 <td><p>A large forward adjustment was applied</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">kTimeLeapPast</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">kTimeLeapPast</span></code></p></td>
 <td><p>A large backward adjustment was applied</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">kUnknown</span></code></p></td>
-<td><p>Status cannot be determined (e.g. <code class="docutils literal notranslate"><span class="pre">Init()</span></code> not yet called)</p></td>
 </tr>
 </tbody>
 </table>
@@ -633,7 +627,7 @@ to return synchronized data (see VT2).  Without it, <code class="docutils litera
 <code class="docutils literal notranslate"><span class="pre">VehicleTimeStatus::HasBeenSynchronized()</span></code> returns <code class="docutils literal notranslate"><span class="pre">true</span></code> whenever <code class="docutils literal notranslate"><span class="pre">kSynchronized</span></code>
 has been set at least once during this lifecycle, regardless of current fault flags.
 <code class="docutils literal notranslate"><span class="pre">VehicleTimeStatus::IsConsistent()</span></code> checks that the flag combination is internally
-valid (no <code class="docutils literal notranslate"><span class="pre">kUnknown</span></code>, at least one flag set, not both leap flags simultaneously).</p>
+valid (at least one flag set, and not both leap flags simultaneously).</p>
 <p>These three methods belong to <code class="docutils literal notranslate"><span class="pre">VehicleTimeStatus</span></code> and encode VehicleTime-domain
 semantics.  <code class="docutils literal notranslate"><span class="pre">ClockStatus&lt;FlagEnumT&gt;</span></code> itself exposes only generic bit-manipulation
 (<code class="docutils literal notranslate"><span class="pre">IsFlagActive</span></code>, <code class="docutils literal notranslate"><span class="pre">IsAnyOfFlagsActive</span></code>, <code class="docutils literal notranslate"><span class="pre">AddFlag</span></code>) and the domain-specific
@@ -643,7 +637,7 @@ semantics.  <code class="docutils literal notranslate"><span class="pre">ClockSt
 <h4><a class="toc-backref" href="#id9" role="doc-backlink">VT2 — Initialization and readiness check</a><a class="headerlink" href="#vt2-initialization-and-readiness-check" title="Link to this heading">#</a></h4>
 <p><code class="docutils literal notranslate"><span class="pre">VehicleTime</span></code> requires an explicit <code class="docutils literal notranslate"><span class="pre">Init()</span></code> call to open the IPC channel to the
 <a class="reference internal" href="../time_daemon/index.html"><span class="doc">TimeDaemon</span></a> before any time data becomes available.  Until <code class="docutils literal notranslate"><span class="pre">Init()</span></code> returns <code class="docutils literal notranslate"><span class="pre">true</span></code>,
-<code class="docutils literal notranslate"><span class="pre">Now()</span></code> returns a snapshot with <code class="docutils literal notranslate"><span class="pre">kUnknown</span></code> status and <code class="docutils literal notranslate"><span class="pre">IsAvailable()</span></code> returns
+<code class="docutils literal notranslate"><span class="pre">Now()</span></code> returns a snapshot with no flags set (<code class="docutils literal notranslate"><span class="pre">IsConsistent()</span></code> returns <code class="docutils literal notranslate"><span class="pre">false</span></code>) and <code class="docutils literal notranslate"><span class="pre">IsAvailable()</span></code> returns
 <code class="docutils literal notranslate"><span class="pre">false</span></code>.</p>
 <p>After a successful <code class="docutils literal notranslate"><span class="pre">Init()</span></code>, <code class="docutils literal notranslate"><span class="pre">IsAvailable()</span></code> returns <code class="docutils literal notranslate"><span class="pre">true</span></code> immediately.  The
 non-blocking <code class="docutils literal notranslate"><span class="pre">IsAvailable()</span></code> probe and the blocking <code class="docutils literal notranslate"><span class="pre">WaitUntilAvailable()</span></code> are useful
@@ -705,7 +699,14 @@ Rate deviation is excluded from the comparison.</p></li>
 </ul>
 <div style="overflow-x: auto; max-width: 100%;"><p class="plantuml">
 <object data="../../_images/plantuml-d2209a3aceb99ff88b313ef30d899dd7e5dde698.svg" type="image/svg+xml" style="width:1663px;height:1553px;background:#FFFFFF;"></object></p>
-</div><div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;score/time/vehicle_time/src/vehicle_clock.h&quot;</span>
+</div><div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>All three subscription callbacks (<code class="docutils literal notranslate"><span class="pre">TimeSlaveSyncData</span></code>, <code class="docutils literal notranslate"><span class="pre">PDelayMeasurementData</span></code>,
+and <code class="docutils literal notranslate"><span class="pre">VehicleTimeStatus</span></code>) are <strong>not yet delivered</strong>. Calling <code class="docutils literal notranslate"><span class="pre">Subscribe&lt;...&gt;()</span></code>
+compiles and runs without error, but the registered callbacks will never be invoked.
+Delivery will be wired from a dedicated background thread in a future change.</p>
+</div>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;score/time/vehicle_time/src/vehicle_clock.h&quot;</span>
 <span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;score/time/ptp/src/time_slave_sync_data.h&quot;</span>
 <span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;score/time/ptp/src/pdelay_measurement_data.h&quot;</span>
 
@@ -736,12 +737,6 @@ Rate deviation is excluded from the comparison.</p></li>
 <p class="admonition-title">Warning</p>
 <p>Callbacks are invoked on the <strong>backend thread</strong> — the callback implementation must be
 thread-safe.</p>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p><code class="docutils literal notranslate"><span class="pre">VehicleTimeStatus</span></code> subscription is defined in the API and can be registered now.
-The actual delivery is not yet implemented — callbacks will be invoked from a dedicated
-background thread in a future change.</p>
 </div>
 </section>
 <section id="vt4-status-flag-inspection-diagnostics">
@@ -883,7 +878,25 @@ No global state is touched — safe for parallel tests.</p></td>
 <h4><a class="toc-backref" href="#id19" role="doc-backlink">T1 — ScopedClockOverride (scope-bound override)</a><a class="headerlink" href="#t1-scopedclockoverride-scope-bound-override" title="Link to this heading">#</a></h4>
 <div style="overflow-x: auto; max-width: 100%;"><p class="plantuml">
 <object data="../../_images/plantuml-029282fc8d9a2efdef741e4f685ecad16a7179aa.svg" type="image/svg+xml" style="width:1107px;height:1061px;background:#FFFFFF;"></object></p>
-</div><div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;score/time/vehicle_time/src/vehicle_clock.h&quot;</span>
+</div><div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><code class="docutils literal notranslate"><span class="pre">ScopedClockOverride</span></code> modifies a <strong>process-wide singleton</strong>. Any <code class="docutils literal notranslate"><span class="pre">cc_test</span></code> target that
+uses it must declare <code class="docutils literal notranslate"><span class="pre">tags</span> <span class="pre">=</span> <span class="pre">[&quot;exclusive&quot;,</span> <span class="pre">&quot;unit&quot;]</span></code> in its Bazel BUILD file. Without
+<code class="docutils literal notranslate"><span class="pre">&quot;exclusive&quot;</span></code>, Bazel may run multiple tests in the same process shard in parallel, causing
+one test’s mock to corrupt another test’s clock state and producing flaky failures.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cc_test</span><span class="p">(</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;my_service_test&quot;</span><span class="p">,</span>
+    <span class="n">srcs</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;my_service_test.cpp&quot;</span><span class="p">],</span>
+    <span class="n">tags</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;exclusive&quot;</span><span class="p">,</span> <span class="s2">&quot;unit&quot;</span><span class="p">],</span>
+    <span class="n">deps</span> <span class="o">=</span> <span class="p">[</span><span class="o">...</span><span class="p">],</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>If the SUT receives the clock via constructor injection instead, use
+<code class="docutils literal notranslate"><span class="pre">ClockTestFactory</span></code> (T2) — it does <strong>not</strong> touch the global singleton and
+requires no special tag.</p>
+</div>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;score/time/vehicle_time/src/vehicle_clock.h&quot;</span>
 <span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;score/time/vehicle_time/src/vehicle_clock_backend_mock.h&quot;</span>
 
 <span class="n">TEST</span><span class="p">(</span><span class="n">MyServiceTest</span><span class="p">,</span><span class="w"> </span><span class="n">ReportsReliableTime</span><span class="p">)</span>
@@ -942,28 +955,33 @@ No global state is touched — safe for parallel tests.</p></td>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">//score/time/vehicle_time:vehicle_time_mock</span></code></p></td>
 <td><p>Unit test — <code class="docutils literal notranslate"><span class="pre">VehicleClockBackendMock</span></code> + scope-bound override or constructor injection</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">//score/time/vehicle_time:interface</span></code></p></td>
-<td><p>Header-only, no backend — interface/type usage only</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">//score/time/high_res_steady_time:high_res_steady_time</span></code></p></td>
-<td><p>Production binary — HIRS steady clock</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">//score/time/high_res_steady_time:high_res_steady_time_mock</span></code></p></td>
-<td><p>Unit test — <code class="docutils literal notranslate"><span class="pre">HighResSteadyClockBackendMock</span></code> + scope-bound override or constructor injection</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">//score/time/high_res_steady_time:interface</span></code></p></td>
-<td><p>Header-only</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">//score/time/steady_time:steady_time</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">std::chrono::steady_clock</span></code> wrapper</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">//score/time/system_time:system_time</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">std::chrono::system_clock</span></code> wrapper</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">//score/time/ptp:ptp_types</span></code></p></td>
-<td><p>PTP notification data types (<code class="docutils literal notranslate"><span class="pre">TimeSlaveSyncData</span></code>, <code class="docutils literal notranslate"><span class="pre">PDelayMeasurementData</span></code>)</p></td>
+<tr class="row-even"><td><p><em>(Bazel tag required for ScopedClockOverride)</em></p></td>
+<td><p>Tests using <code class="docutils literal notranslate"><span class="pre">ScopedClockOverride</span></code> must add <code class="docutils literal notranslate"><span class="pre">tags</span> <span class="pre">=</span> <span class="pre">[&quot;exclusive&quot;,</span> <span class="pre">&quot;unit&quot;]</span></code> to their
+<code class="docutils literal notranslate"><span class="pre">cc_test</span></code> target. Tests using <code class="docutils literal notranslate"><span class="pre">ClockTestFactory</span></code> (constructor injection) do not need
+this tag.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">//score/time/vehicle_time:interface</span></code></p></td>
+<td><p>Header-only, no backend — interface/type usage only</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">//score/time/high_res_steady_time:high_res_steady_time</span></code></p></td>
+<td><p>Production binary — HIRS steady clock</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">//score/time/high_res_steady_time:high_res_steady_time_mock</span></code></p></td>
+<td><p>Unit test — <code class="docutils literal notranslate"><span class="pre">HighResSteadyClockBackendMock</span></code> + scope-bound override or constructor injection</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">//score/time/high_res_steady_time:interface</span></code></p></td>
+<td><p>Header-only</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">//score/time/steady_time:steady_time</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">std::chrono::steady_clock</span></code> wrapper</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">//score/time/system_time:system_time</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">std::chrono::system_clock</span></code> wrapper</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">//score/time/ptp:ptp_types</span></code></p></td>
+<td><p>PTP notification data types (<code class="docutils literal notranslate"><span class="pre">TimeSlaveSyncData</span></code>, <code class="docutils literal notranslate"><span class="pre">PDelayMeasurementData</span></code>)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">//score/time/vehicle_time:interface</span></code></p></td>
 <td><p>Required when subscribing to <code class="docutils literal notranslate"><span class="pre">VehicleTimeStatus</span></code> — provides the type definition</p></td>
 </tr>
 </tbody>
