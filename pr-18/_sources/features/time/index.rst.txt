@@ -129,6 +129,55 @@ Class overview
 
    </div>
 
+Core types
+~~~~~~~~~~
+
+``Clock<Tag>``
+^^^^^^^^^^^^^^
+
+The sole user-facing handle for a clock domain.  A cheaply copyable value type — all
+copies share the same backend instance via a ``shared_ptr``.  Its API surface is
+intentionally uniform across all domains: ``Now()`` for reading, ``Subscribe`` /
+``Unsubscribe`` for events, ``Init`` / ``IsAvailable`` / ``WaitUntilAvailable`` for
+readiness — with opt-in capabilities gated at compile time by the hook templates below.
+
+``ClockTraits<Tag>``
+^^^^^^^^^^^^^^^^^^^^
+
+The domain registration point.  The primary template is intentionally incomplete; each
+clock domain provides a full explicit specialisation that binds together the backend
+type, duration, timepoint, snapshot, and the ``CallNow`` factory function.  No existing
+file is modified when a new domain is added.
+
+``ClockSnapshot<TimepointT, StatusT>``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The immutable return value of every ``Now()`` call.  Bundles the timepoint and its
+quality metadata into a single atomic read — no separate status call is ever needed.
+``TimepointT`` is ``std::chrono::time_point<Tag, Duration>``, making different clock
+domains' timepoints incompatible types so cross-domain arithmetic is a compile error.
+``StatusT`` is the domain's chosen metadata type (see below).
+
+``StatusT``, ``ClockStatus<FlagEnumT>``, and ``NoStatus``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+All domain-specific metadata lives in ``StatusT`` — ``ClockSnapshot`` itself is never
+extended.  Two building blocks are provided: ``NoStatus`` (zero-size placeholder for
+always-ready clocks with no quality concept) and ``ClockStatus<FlagEnumT>`` (generic
+bitmask over a scoped flag enum).  A domain may use either alone or compose them inside
+a richer struct alongside continuous fields — as ``VehicleTimeStatus`` does with
+``ClockStatus<VehicleTime::StatusFlag>`` and ``double rate_deviation``.
+
+Capability hooks
+^^^^^^^^^^^^^^^^
+
+Three SFINAE hook templates gate the optional capabilities of ``Clock<Tag>``.  Each
+primary template is intentionally undefined — using an ungated capability on a domain
+that has not opted in is a **compile error**, not a runtime failure:
+``InitializationHook<Tag>`` unlocks ``Init()``, ``AvailabilityHook<Tag>`` unlocks
+``IsAvailable()`` and ``WaitUntilAvailable()``, and ``SubscriptionHook<Tag, EventType>``
+unlocks ``Subscribe`` / ``Unsubscribe`` for a specific event type.
+
 Use Cases
 ---------
 
@@ -757,7 +806,10 @@ Extending with a new clock domain
 Adding a new time domain (e.g. ``SdatTime``) requires only new files — no existing file
 is modified:
 
-1. Create ``score/time/sdat_time/sdat_time.h`` — tag struct with ``Duration`` and ``Timepoint``.
+1. Create ``score/time/sdat_time/sdat_time.h`` — tag struct with ``Duration`` and
+   ``Timepoint``, and a domain-specific ``SdatTimeStatus`` struct containing whatever
+   metadata the backend needs to expose (flags via ``ClockStatus<FlagEnumT>``, continuous
+   fields, or both).
 2. Create ``score/time/sdat_time/details/sdat_time_iface.h`` — pure-virtual backend interface.
 3. Create ``score/time/sdat_time/details/sdat_prod_impl.cpp`` — production backend.
 4. Add ``ClockTraits<SdatTime>`` specialisation in ``score/time/sdat_time/sdat_clock.h``.
