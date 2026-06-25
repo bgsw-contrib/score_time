@@ -96,7 +96,7 @@ Check C++ formatting (clang-format):
 
 .. code-block:: bash
 
-   bazel build --config=clang_format //score/...
+   bazel build --config=clang_format //score/... //examples/...
 
 Fix a single C++ file:
 
