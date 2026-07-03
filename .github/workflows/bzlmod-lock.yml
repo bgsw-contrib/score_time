@@ -1,5 +1,5 @@
 # *******************************************************************************
-# Copyright (c) 2024 Contributors to the Eclipse Foundation
+# Copyright (c) 2026 Contributors to the Eclipse Foundation
 #
 # See the NOTICE file(s) distributed with this work for additional
 # information regarding copyright ownership.
@@ -11,7 +11,9 @@
 # SPDX-License-Identifier: Apache-2.0
 # *******************************************************************************
 
-name: Process / Commit Messages
+# Enforces MODULE.bazel.lock versioning and CI drift check as required by
+# https://github.com/eclipse-score/score/issues/2628
+name: Process / Bzlmod Lock Check
 
 permissions:
   contents: read
@@ -22,17 +24,15 @@ concurrency:
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
+    types: [opened, reopened, synchronize]
+  merge_group:
+    types: [checks_requested]
+  push:
+    branches:
+      - main
+
 jobs:
-  lint-commits:
-    name: check-commit-messages
-    runs-on: ubuntu-24.04
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4.2.2
-        with:
-          fetch-depth: 0
-      - name: Run Gitlint Action
-        uses: ./.github/actions/gitlint
-        with:
-          pr-number: ${{ github.event.number }}
+  bzlmod-lock:
+    uses: eclipse-score/cicd-workflows/.github/workflows/bzlmod-lock-check.yml@main
+    with:
+      working-directory: .

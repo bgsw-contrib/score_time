@@ -10,23 +10,22 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 # *******************************************************************************
+name: QA / CodeQL
 
-name: License check
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 on:
-  pull_request_target:
-    types: [opened, reopened, synchronize]
-  merge_group:
-    types: [checks_requested]
-
-permissions:
-  pull-requests: write
-  issues: write
-
+  schedule:
+    - cron: "0 2 * * *" # Nightly at 2 AM UTC
+  workflow_dispatch:
 
 jobs:
-  license-check:
-    uses: eclipse-score/cicd-workflows/.github/workflows/license-check.yml@main
+  codeql:
+    uses: eclipse-score/cicd-workflows/.github/workflows/codeql.yml@main
     with:
-      repo-url: "${{ github.server_url }}/${{ github.repository }}"
-    secrets:
-      dash-api-token: ${{ secrets.ECLIPSE_GITLAB_API_TOKEN }}
+      build-script: "bazel build --config=time-x86_64-linux //score/..."
+    permissions:
+      security-events: write
+      contents: read

@@ -11,19 +11,17 @@
 # SPDX-License-Identifier: Apache-2.0
 # *******************************************************************************
 
-name: Docs / Cleanup
+"""Clang-tidy aspect for the score_time module.
 
-permissions:
-  contents: write
-  pages: write
-  id-token: write
+Uses the S-CORE centralized clang-tidy policy from score_cpp_policies,
+which pre-wires the S-CORE baseline .clang-tidy config and aspect defaults.
+"""
 
-on:
-  schedule:
-    - cron: '0 0 * * *' # Runs every day at midnight UTC
+load("@score_cpp_policies//clang_tidy:defs.bzl", "make_clang_tidy_aspect", "make_clang_tidy_test")
 
-jobs:
-  docs-cleanup:
-    uses: eclipse-score/cicd-workflows/.github/workflows/docs-cleanup.yml@main
-    secrets:
-      token: ${{ secrets.GITHUB_TOKEN }}
+clang_tidy_aspect = make_clang_tidy_aspect(
+    binary = Label("@llvm_toolchain//:clang-tidy"),
+    # No local_configs: use only the S-CORE baseline from score_cpp_policies.
+)
+
+clang_tidy_test = make_clang_tidy_test(aspect = clang_tidy_aspect)

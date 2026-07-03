@@ -10,25 +10,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 # *******************************************************************************
-name: Code Coverage (>85%)
-on:
-  pull_request:
-    types: [opened, reopened, synchronize]
-  push:
-    branches:
-      - main
-  merge_group:
-    types: [checks_requested]
-  release:
-    types: [created]
 
-jobs:
-  code-coverage:
-    uses: eclipse-score/cicd-workflows/.github/workflows/cpp-coverage.yml@main
-    with:
-      bazel-target: "//score/..."
-      bazel-config: "time-x86_64-linux"
-      extra-bazel-flags: "--test_output=errors --nocache_test_results"
-      artifact-name-suffix: "_cpp"
-      retention-days: 10
-      min-coverage: 85
+# Makes tools/lint/ a Bazel package so linters.bzl can be referenced as a
+# label target (//tools/lint:linters.bzl%clang_tidy_aspect) in .bazelrc.
+exports_files(["linters.bzl"])
